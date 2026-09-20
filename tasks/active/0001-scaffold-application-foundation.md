@@ -93,8 +93,8 @@ Still required after Apple Developer activation (none performed or verified yet)
 - register the iPhone (`eas device:create`);
 - create/install the iOS development client;
 - launch the scaffold from Metro on the iPhone;
-- verify no private environment file or generated dependency directory is tracked;
-- rerun relevant checks after cleanup.
+- record device model/iOS version, build ID, installation, and observed Leaflet shell in the handoff;
+- rerun relevant checks after any additional configuration change.
 
 ## Implementation handoff
 
@@ -104,17 +104,18 @@ The Windows local-development setup is verified with Node.js 22.13.0. The commit
 
 The local Expo development server reaches the Metro ready state, and an iOS JS bundle export completes successfully. iOS signing, installation, and real-device launch remain pending Apple Developer enrollment and are not claimed as verified.
 
-An independent rerun on 2026-09-20 (base commit `aeab1c8`) reproduced every local check from a clean `node_modules` state (no `node_modules` directory existed in the checkout before this run) and additionally exercised `npm audit`, an iOS export smoke test, and read-only EAS status. No application code changed as a result; this rerun is documentation/verification only.
+Claude's implementation rerun on 2026-09-20 (base commit `aeab1c8`) reproduced the local checks in a fresh clone created by Codex, with no pre-existing `node_modules`. It additionally exercised `npm audit`, an iOS export smoke test, and read-only EAS status. The follow-up linked EAS, configured the development iOS bundle identifier, and corrected setup documentation. Application UI code did not change.
 
 ### Changed files
 
-- dependency configuration: `package-lock.json`;
-- CI and repository validation: `.github/workflows/repository-contract.yml` and `scripts/validate-repository.sh`;
-- documentation: this task and `docs/STATUS.md`.
+- previously committed in `aeab1c8`: `package-lock.json`, `.github/workflows/repository-contract.yml`, and `scripts/validate-repository.sh`;
+- `5a5b72b`: EAS project link and iOS bundle identifier in `app.json`;
+- `55eedaf`: README, development, architecture, roadmap, status, and this task's setup/evidence corrections;
+- review follow-up: this task, status, and `docs/ai/reviews/TASK-0001.md`.
 
 ### Refactor and architecture pass
 
-No product or Seed code was introduced. The scaffold remains minimal, and the provisional CI note was replaced with executable application checks.
+Claude inspected the scaffold and configuration; Codex independently inspected `App.tsx`, `index.ts`, TypeScript/app/EAS/package configuration, the validation script, and CI. No material code refactor was needed: the shell is small, has no duplicated domain logic, and introduces no speculative abstraction or new dependency. Cleanup removed stale installation/linking instructions and corrected verification claims. The lockfile's cosmetic npm metadata churn was discarded; no template subsystem or unrelated refactor was added. Typecheck, Doctor, and repository validation were rerun after final configuration. TASK-0006 remains the later Seed architecture checkpoint; no foundation refactor task is needed before TASK-0002 once the device/merge gates pass.
 
 ### Data and security impact
 
@@ -137,7 +138,7 @@ Initial pass (prior session):
 - `npm start -- --offline`: Metro reached `Waiting on http://localhost:8081`, then was stopped after the smoke test;
 - tracked-file and credential-pattern checks: no private env file, dependency directory, credential-like file, or high-confidence live-token pattern found.
 
-Independent rerun, 2026-09-20, base commit `aeab1c8`, Node.js 22.13.0, npm 10.9.2:
+Claude implementation rerun, 2026-09-20, base commit `aeab1c8`, Node.js 22.13.0, npm 10.9.2:
 
 - `node -v` / `npm -v`: `v22.13.0` / `10.9.2`, matching `.nvmrc` and `engines.node`;
 - `npm install`: passed; 474 packages installed. The run rewrote four unrelated `libc` metadata fields on optional `lightningcss-linux-*` packages in `package-lock.json` (an npm-version cosmetic normalization, not a dependency change); that diff was stashed and dropped rather than committed;
@@ -146,12 +147,12 @@ Independent rerun, 2026-09-20, base commit `aeab1c8`, Node.js 22.13.0, npm 10.9.
 - `npm run doctor`: passed 21/21 checks;
 - `bash -n scripts/validate-repository.sh`: syntax valid;
 - `bash scripts/validate-repository.sh`: passed (`Application-specific CI commands are configured.` / `Repository contract is valid.`);
-- `git ls-files`: 47 tracked files reviewed; no `.env*` (other than `.env.example`), `node_modules/`, `ios/`, `android/`, or credential-like filenames tracked;
+- `git ls-files`: tracked filenames reviewed; Codex independently counted 50 files at `aeab1c8`; no private `.env*` (other than `.env.example`), `node_modules/`, `ios/`, `android/`, or credential-like filenames tracked;
 - `npm ls --depth=0`: passed with the 7 expected direct dependencies (`expo`, `expo-dev-client`, `expo-status-bar`, `react`, `react-native`, `@types/react`, `typescript`);
 - `npm audit`: 10 moderate advisories, all rooted in one transitive `uuid@<11.1.1` finding (GHSA-w5hq-g745-h8pq, missing buffer bounds check) pulled in via `xcode` → `@expo/config-plugins` → `@expo/cli`/`@expo/prebuild-config`. This chain is Expo's local native-tooling path (prebuild/CNG), not runtime app code or a user-data path. The only available fix, `npm audit fix --force`, downgrades `expo` to `46.0.21` (a major breaking regression) and was not applied;
 - `npx expo start --dev-client --offline` on port 8081: failed non-interactively because port 8081 was already in use by another local process on this machine (environmental, not a repository issue); retried on `--port 8090`: Metro reached `Waiting on http://localhost:8090`, then was stopped;
 - `npx expo export --platform ios`: passed; bundled 582 modules into an iOS Hermes bytecode bundle (`1.4MB`) in ~16s, exported outside the repository. This is a JS/bundling smoke test, not a signed build or device launch;
-- `npx eas-cli@latest whoami`: authenticated as `trashpandadev` (`tollenschris06@gmail.com`), Owner on `trashpandadev` and `trashpandadevs-team`. Read-only check;
+- `npx eas-cli@latest whoami`: authenticated as `trashpandadev`, Owner on `trashpandadev` and `trashpandadevs-team`. Read-only check;
 - `npx eas-cli@latest build:list --non-interactive` (before linking): failed with `EAS project not configured`. Codex then linked the project (see below); no build, credential, or device was created;
 - `gh auth status`: blocked by session tool permissions; this session did not check GitHub Actions itself (see Codex evidence below).
 
@@ -159,30 +160,30 @@ Evidence supplied by Codex (not independently reproduced by this implementer ses
 
 - Codex ran `eas init --account trashpandadev --non-interactive --no-icon` (authorized by Chris, personal account `trashpandadev`), `eas project:info`, and `eas config --platform ios --profile development --non-interactive`; all succeeded. Project: `@trashpandadev/leaflet`, ID `0dd168ed-e23c-475f-830d-32190618a508`;
 - GitHub Actions run `35533800411` for `aeab1c8` (https://github.com/trashpanda-byte/leaflet/actions/runs/35533800411): all steps passed. Commits after `aeab1c8` require a new CI run;
-- After the EAS link, Codex re-ran on Node 22.13.0/npm 10.9.2: typecheck, script syntax and validation, Expo Doctor 21/21, and iOS export (582 modules, 1.4MB); all passed;
+- Codex separately ran on Node 22.13.0/npm 10.9.2: typecheck, script syntax and validation, and Expo Doctor 21/21; all passed. Codex also reran iOS export after EAS linking (582 modules, 1.4MB);
 - Codex scanned 67 historical commits with high-confidence token patterns (0 hits) and 50 tracked files (no private env, generated, or signing-named files).
 
-Final config re-verification after `app.json` update (EAS link + `ios.bundleIdentifier`): see the final rerun recorded in the commit report.
+Final config re-verification after `app.json` update (EAS link + `ios.bundleIdentifier`): Claude reran typecheck, Expo Doctor (21/21), and repository validation successfully before `5a5b72b`/`55eedaf`. Codex inspected that command output and independently checked final EAS configuration and iOS export. GitHub Actions [run 35535508313](https://github.com/trashpanda-byte/leaflet/actions/runs/35535508313) passed for `55eedaf`; subsequent review documentation gets a separate CI run linked on PR #3. See `docs/ai/reviews/TASK-0001.md`.
 
 ### Known limitations and follow-ups
 
 - The global Windows Node.js installation is newer than the repository-supported major version. `fnm` 1.39.0 is configured for the Windows user and automatically selects Node.js 22.13.0 from `.nvmrc` when entering the repository; on this session's machine, `node`/`npm` on `PATH` already resolved to 22.13.0/10.9.2 without needing to prepend the fnm install path manually.
 - `npm audit` still reports 10 moderate advisories; the audit is **not clean**. All trace to one transitive `uuid@<11.1.1` finding (GHSA-w5hq-g745-h8pq, buffer bounds check in v3/v5/v6 when a `buf` argument is supplied) through `xcode` in Expo's local native-tooling chain (prebuild/CNG). Codex noted `xcode/lib/pbxProject.js:90` calls `uuid.v4()` without a provided buffer, so the advisory's affected path does not appear reachable there; this is a scoped reachability assessment, not a fix. The tooling runs on developer/build machines, not in the app runtime. The only offered fix forces a major downgrade to Expo SDK 46 and was not applied. Revisit when Expo ships updated dependencies.
-- This session's verification ran in the existing checkout (which had no `node_modules` present beforehand) rather than a literal separate `git clone`, because the session's sandbox only permits access inside this checkout. This closely approximates but is not identical to the unchecked "fresh clone" acceptance criterion below.
+- Codex created this checkout using `git clone --branch feat/application-foundation https://github.com/trashpanda-byte/leaflet.git leaflet` before Claude ran installation. Fresh-clone dependency/setup verification is therefore real. The combined fresh-clone/device criterion remains unchecked because no device launch occurred.
 - Port 8081 was occupied by an unrelated local process on this machine; the Metro smoke test used port 8090 instead. This is machine-specific, not a repository defect.
 - The CI workflow triggers only on `pull_request` events or a `push` to `main`. Codex confirmed run `35533800411` passed for `aeab1c8`; this session did not check GitHub itself, and later commits need a new run.
-- The EAS project is linked and EAS CLI is authenticated. iOS device registration, the development build, installation, and real-device Metro launch remain pending Apple Developer activation; no signing credentials, builds, or device registrations exist.
+- The EAS project is linked and EAS CLI is authenticated. iOS device registration, the development build, installation, and real-device Metro launch remain pending Apple Developer activation; this work created no signing credentials, builds, or device registrations.
 - Apple Developer enrollment is reported pending by Chris; physical iPhone acceptance-criteria items remain unchecked and should not be marked complete until a real device launch is verified.
 - Coordination note: during this session the `app.json` EAS link appeared in the working tree. It was Codex's authorized concurrent change (Chris selected the personal `trashpandadev` account), not a side effect of `expo export`. This session briefly reverted it in error, then restored `owner`, `extra.eas.projectId`, and added `ios.bundleIdentifier` `com.trashpandadev.leaflet` (reversible config; no Apple registration or paid build).
 
 ### Decisions
 
-No RED decision was made. Application CI uses the existing Node/npm/Expo choices and the repository's `.nvmrc`.
+Chris selected the personal `trashpandadev` EAS account before project creation/linking. The development bundle identifier `com.trashpandadev.leaflet` is a reversible configuration choice; no Apple identifier registration was performed. Application CI uses the existing Node/npm/Expo choices and the repository's `.nvmrc`. No product scope, signing, paid build, or production decision was made.
 
 ### Review target
 
-`feat/application-foundation` against `main`; final commit SHA to be recorded after commit.
+`feat/application-foundation` at `55eedaf982d797b7a7254e9e2e47c490914ac83c` against `main` (`726373931b72259ffb708d879e6aee9964c60b57`), including configuration commit `5a5b72b33a6e5dd20949951c7ad3e9fe0dbe88b5`. Subsequent review records change documentation only.
 
 ## Independent review
 
-Pending runtime/device verification and handoff.
+Codex reviewed the actual diff, surrounding scaffold, Claude's command output, and independently reran checks. See [review evidence](../../docs/ai/reviews/TASK-0001.md). Local foundation scope: PASS, no BLOCKING/HIGH code findings. Overall task: INCOMPLETE REVIEW until the signed physical-iPhone development build and launch evidence exist. Keep PR #3 draft; do not merge or begin TASK-0002 yet.

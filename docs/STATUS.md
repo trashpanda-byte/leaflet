@@ -37,7 +37,7 @@ Do not start Task 0002 implementation until Task 0001 is verified and merged. Do
 | Area | State |
 |---|---|
 | Application code | Initial Expo scaffold committed on feature branch |
-| Stack selection | Selected; verification pending |
+| Stack selection | Local installation, typecheck, Doctor, Metro startup, and iOS JS export verified; native device verification pending |
 | Development build | Configured; iOS launch not yet verified |
 | Package lock | Generated and verified with a clean `npm ci` install |
 | Design direction | Canonical references committed; full implementation pending |
@@ -48,7 +48,9 @@ Do not start Task 0002 implementation until Task 0001 is verified and merged. Do
 | Internal schedule plan | ACTION/Schedule contracts defined; TASK-0007 queued |
 | AI integration | Intentionally prohibited before TASK-0006 completes |
 | Automated app tests | Not configured |
-| CI | Repository contract, lockfile install, typecheck, and Expo Doctor configured; workflow triggers on pull requests and pushes to `main`; run 35533800411 for `aeab1c8` passed all steps (checked by Codex); commits after `aeab1c8` need a new run |
+| CI | All steps passed in [run 35535508313](https://github.com/trashpanda-byte/leaflet/actions/runs/35535508313) for setup head `55eedaf`; later documentation commits receive separate CI checks on PR #3 |
+| Independent review | Codex: local foundation PASS; overall task incomplete pending physical-iPhone evidence. See [review](ai/reviews/TASK-0001.md). |
+| Dependency audit | 10 moderate findings from one transitive tooling advisory; no high/critical findings; scoped assessment and follow-up recorded in review |
 | Production | Not created or changed by this repository |
 
 ## Waiting on Chris
