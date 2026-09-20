@@ -8,7 +8,7 @@ Leaflet is a greenfield project. The first application scaffold exists on the `f
 
 The selected foundation is Expo SDK 57 + React Native + TypeScript + npm with `expo-dev-client` and EAS development-build profiles. The files are committed, but the development build is **not yet verified as running** because dependency installation, lockfile generation, Expo Doctor/typecheck execution, EAS project linking, iOS device registration/build, and a real-device launch still need to occur.
 
-The Seed product/domain baseline is now approved and documented in `docs/SEED_DOMAIN.md`. Tasks 0002–0006 are queued in dependency order so Claude can implement small bounded slices and Codex can review each one independently.
+The Seed product/domain baseline is now approved and documented in `docs/SEED_DOMAIN.md`. Tasks 0002–0006 are queued in dependency order so Claude can implement small bounded Seed slices and Codex can review each one independently. The resolver/action/schedule boundaries are now specified, and TASK-0007 is queued for the provider-neutral internal Schedule domain after the Seed architecture checkpoint.
 
 No Supabase client, Seed schema, authentication, AI provider SDK, or model calls have been introduced into application code yet.
 
@@ -45,6 +45,7 @@ Do not start Task 0002 implementation until Task 0001 is verified and merged. Do
 | Local Supabase | Not initialized; TASK-0002 queued |
 | Seed/domain implementation | Not started |
 | Seed implementation plan | TASK-0002 through TASK-0006 queued |
+| Internal schedule plan | ACTION/Schedule contracts defined; TASK-0007 queued |
 | AI integration | Intentionally prohibited before TASK-0006 completes |
 | Automated app tests | Not configured |
 | CI | Repository-contract checks only; app-specific checks pending |
@@ -64,4 +65,6 @@ No Seed product decision currently blocks Task 0002. The approved rules may be r
 4. Implement TASK-0004 deterministic organization/relationships.
 5. Implement TASK-0005 iOS capture vertical slice.
 6. Complete TASK-0006 Seed architecture checkpoint.
-7. Consider AI only from measured unresolved cases after the checkpoint.
+7. Implement TASK-0007 provider-neutral internal Schedule domain.
+8. Add external calendar adapters only after the internal Schedule boundary is reviewed.
+9. Consider AI only from measured unresolved cases after TASK-0006.
