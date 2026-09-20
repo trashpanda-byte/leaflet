@@ -71,3 +71,24 @@ Record durable product and architecture choices here. Append entries; do not rew
 **Consequence:** New design and implementation follow the visual rules and reference scope in `docs/DESIGN.md`. Copy, navigation labels, feature names, dates, and metrics inside the board remain illustrative unless approved separately as product behavior.
 
 **Revisit when:** Chris approves a replacement visual system or a specific implementation constraint requires an explicit, recorded adjustment.
+
+
+## 2026-09-20 — Expo development builds are the mobile development baseline
+
+**Decision:** Leaflet uses Expo SDK 57, React Native, TypeScript, npm, and project-specific Expo development builds. Expo Go is not a compatibility requirement.
+
+**Reason:** Leaflet targets iOS and Android and is expected to need native widgets, notifications, location, calendar access, and other capabilities that should fit the normal development environment rather than force a later migration away from Expo Go.
+
+**Consequence:** Native-capability work is tested in development clients. Generated native projects remain reproducible through Expo CNG unless a future requirement justifies committing native projects.
+
+**Revisit when:** A required native capability cannot be supported cleanly through Expo modules/config plugins or the cost of CNG outweighs its benefits.
+
+## 2026-09-20 — Build the Seed loop deterministically before integrating AI
+
+**Decision:** The first Seed implementation will maximize database constraints, typed domain logic, state machines, parsers, exact/fuzzy lookups, aliases, action validators, RLS, and explicit unresolved states before any model-provider SDK or LLM call is added.
+
+**Reason:** Leaflet's product and environmental thesis depends on avoiding unnecessary generative inference. We need to observe what the deterministic system actually cannot resolve before deciding what AI capability is necessary.
+
+**Consequence:** AI is not part of the initial Seed pipeline milestone. Unresolved cases are recorded and surfaced safely rather than automatically routed to a model. Later AI work must be justified by those measured gaps and remain a bounded fallback.
+
+**Revisit when:** The deterministic Seed loop is working end-to-end and real unresolved/correction cases demonstrate a specific need for model inference.
