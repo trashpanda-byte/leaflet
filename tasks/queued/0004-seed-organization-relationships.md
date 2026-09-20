@@ -21,13 +21,18 @@ Strong matches organize quietly; weak matches remain unresolved; one Seed may re
 
 - [ ] Organization follows `docs/SEED_DOMAIN.md`.
 - [ ] Resolution provenance is interpretable; no arbitrary user-facing confidence percentage is introduced.
-- [ ] Strong exact/rule/confirmed-learned matches can resolve automatically.
+- [ ] Organization is implemented behind a distinct deterministic `SeedResolver` boundary.
+- [ ] Resolver authority follows: explicit instruction/correction → user-confirmed knowledge → exact structured-state match → single unambiguous deterministic rule/parser → ambiguous/unresolved.
+- [ ] Conflicting viable interpretations at the highest applicable authority level return `ambiguous`; lower-authority rules do not break the tie.
+- [ ] Strong exact/rule/confirmed-learned matches can resolve automatically only under that precedence.
 - [ ] Ambiguous cases remain unresolved without forced categorization.
 - [ ] Existing structure is reused before new categories are created.
 - [ ] Category creation is conservative and broad-first.
+- [ ] Persisted organization uses Topics + typed relationships; Branch is treated as a Tree/UI projection rather than a separate persistence concept unless later evidence requires it.
+- [ ] Initial relationship types stay limited to `about`, `part_of`, `related_to`, and `derived_from`.
 - [ ] One Seed can hold multiple relationships while supporting a primary organizational home if useful.
 - [ ] Similar names can be represented as aliases/relationships without automatic destructive merge.
-- [ ] User corrections outrank inferred structure and may create narrowly scoped reusable knowledge.
+- [ ] User corrections outrank inferred structure and initially learn only the exact normalized corrected term or explicitly confirmed alias; no automatic “close variant” generalization.
 - [ ] Repeated genuine thoughts remain separate records.
 - [ ] Important organization changes are reversible.
 - [ ] No vector database, embeddings, model-provider SDK, or generative model call is introduced unless separately approved.
