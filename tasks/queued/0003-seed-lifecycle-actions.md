@@ -25,8 +25,13 @@ A user's Seed can remain active, be Held, become Resolved, be Snipped with Undo 
 - [ ] Snip is reversible during the supported undo path and does not silently cascade-delete derived work.
 - [ ] User-facing/system language does not claim permanent erasure before a full retention policy is approved.
 - [ ] Grow is represented as an intent/action that can succeed deterministically, ask a supported deterministic question, or remain unresolved.
-- [ ] Explicit ordinary reversible commands can be represented as typed actions.
-- [ ] Ambiguous commitment language does not create Tasks/Events automatically.
+- [ ] Explicit ordinary reversible commands emit allowlisted typed ActionIntents following `docs/ACTION_CONTRACTS.md`.
+- [ ] Initial contracts include `create_task` and `create_event` seams without implementing the Task/Schedule domains in this task.
+- [ ] Ambiguous commitment language does not emit automatic commitment actions.
+- [ ] Recognition and execution are separate; unsupported domains cannot produce false success.
+- [ ] When a later domain executor succeeds and fully satisfies the Seed, the source Seed resolves automatically.
+- [ ] If a derived action fails, the original Seed remains preserved and retryable.
+- [ ] Reversible executed actions return an application-level receipt/Undo capability rather than UI-specific reversal logic.
 - [ ] Action execution is idempotent and validates ownership.
 - [ ] Tests cover failure and retry behavior.
 - [ ] No generative AI call is introduced.
@@ -41,7 +46,9 @@ A user's Seed can remain active, be Held, become Resolved, be Snipped with Undo 
 
 ## Refactor / architecture checkpoint
 
-Keep lifecycle state, interpretation/resolution state, and action execution conceptually separate. Review any enum/state-machine design for accidental coupling before handoff.
+Keep lifecycle state, interpretation/resolution state, action recognition, and domain execution conceptually separate. Review any enum/state-machine design for accidental coupling before handoff.
+
+Do not build a generic command bus or event-sourcing framework. Implement only the typed boundary current behavior needs.
 
 ## AI necessity review
 
