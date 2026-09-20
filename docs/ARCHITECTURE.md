@@ -25,14 +25,16 @@ See `docs/DEVELOPMENT.md` for the exact current setup path.
 
 ```text
 Capture source (app now; widgets/voice later)
-  → create Seed origin record
+  → create Seed origin record with stable client/request identity
   → normalize without overwriting the source
   → retrieve relevant structured state
-  → deterministic rules / parsers / confirmed relationships
-      → resolved: validate and execute/recommend
-      → ambiguous/unresolved: preserve safely
-  → persist typed relationships, provenance, and lifecycle
-  → expose the smallest useful UI result
+  → SeedResolver
+      → resolved: typed relationships and/or ActionIntents
+      → ambiguous: competing valid interpretations
+      → unresolved: insufficient deterministic evidence
+  → validator / appropriate domain executor
+  → persist relationships, provenance, lifecycle, and action outcome
+  → expose the smallest truthful UI result
 
 Only after the deterministic Seed core is complete and refactored:
   measured unresolved and valuable cases
@@ -57,7 +59,35 @@ Architecture must preserve the rules in `docs/SEED_DOMAIN.md`:
 - idempotency prevents retry duplicates without semantic deduplication;
 - linking is preferred to merging;
 - action execution validates ownership, intent, reversibility, and duplicate/retry behavior;
-- capture/domain logic is shared so future native widgets do not duplicate the brain of Leaflet.
+- capture/domain logic is shared so future native widgets do not duplicate the brain of Leaflet;
+- Topic is the persisted organizational concept; Branch is primarily a Tree/UI projection of Topic relationships;
+- the initial relationship vocabulary stays small (`about`, `part_of`, `related_to`, `derived_from`);
+- the SeedResolver returns typed outcomes and does not directly write Task/Schedule state;
+- ActionIntents cross into domain services through the provider-neutral contracts in `docs/ACTION_CONTRACTS.md`;
+- the source Seed survives downstream action failure;
+- when a successful explicit action fully satisfies a Seed, the Seed resolves automatically;
+- Leaflet Events belong to the internal Schedule domain; external calendars are adapters, as defined in `docs/SCHEDULE_DOMAIN.md`.
+
+## Domain boundaries
+
+```text
+Capture/UI
+   ↓
+Seed application service
+   ↓
+SeedResolver
+   ↓
+typed Resolution / ActionIntent
+   ↓
+┌──────────────┬───────────────┐
+│ Seed storage │ domain service│
+│/relationships│ Task/Schedule │
+└──────────────┴───────────────┘
+```
+
+The resolver is deterministic and side-effect free with respect to derived domains: it interprets authorized context and returns typed results. Validators/executors own state changes.
+
+The Schedule domain owns internal Events. Google Calendar, Apple Calendar, and future providers may only integrate through provider adapters after the internal Schedule service is established.
 
 ## Deterministic-first boundary
 
@@ -104,4 +134,5 @@ After the end-to-end deterministic slice works, Task 0006 is the required archit
 - preview environment behavior;
 - monitoring, analytics, and error-reporting approach;
 - exact widget implementation for each platform after the shared Seed service exists;
+- exact internal Schedule schema and calendar conflict/sync policy when schedule work begins;
 - AI capabilities only after the deterministic architecture checkpoint.
