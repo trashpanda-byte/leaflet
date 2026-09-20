@@ -16,6 +16,18 @@ Apply each item that is relevant to the change. Mark a non-applicable item `N/A`
 - The verifier records exact commands and results.
 - Manual checks identify browser/device and observed result.
 
+## Maintainability and refactor pass
+
+- The changed area received a deliberate cleanup pass after behavior became correct.
+- Dead code, stale comments, temporary debugging code, and obsolete compatibility paths are removed.
+- Naming, types, module boundaries, and control flow are understandable without unnecessary indirection.
+- Repeated logic is either consolidated when the pattern is proven or intentionally left local with a reason.
+- No speculative abstraction, unnecessary dependency, or premature framework layer was introduced.
+- Oversized functions/modules or mixed responsibilities are split when doing so materially improves maintainability or testing.
+- Structural changes preserve behavior and the relevant verification is rerun after refactoring.
+- If the task crosses an architecture checkpoint, the underlying subsystem is reviewed for cleanup before the next major layer is added.
+- Significant unrelated cleanup is moved to its own task rather than hidden inside the feature diff.
+
 ## Security and data
 
 - Inputs and model outputs are schema-validated.
