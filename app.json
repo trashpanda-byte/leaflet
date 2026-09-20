@@ -15,10 +15,17 @@
       ]
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.trashpandadev.leaflet"
     },
     "android": {
       "predictiveBackGestureEnabled": true
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "0dd168ed-e23c-475f-830d-32190618a508"
+      }
+    },
+    "owner": "trashpandadev"
   }
 }
