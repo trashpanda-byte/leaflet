@@ -1,0 +1,27 @@
+name: Repository contract
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Validate script syntax
+        run: bash -n scripts/validate-repository.sh
+
+      - name: Validate repository contract
+        run: bash scripts/validate-repository.sh
+
+      - name: Note provisional scope
+        run: |
+          echo "This workflow validates governance and repository hygiene only."
+          echo "Add application-specific install, lint, typecheck, test, build, and database jobs after TASK-0001."
