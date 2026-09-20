@@ -6,7 +6,7 @@ This repository is also the source of truth for how Leaflet is built. Product de
 
 ## Current repository state
 
-Leaflet is a greenfield project. Task 0001 is in progress on `feat/application-foundation`: the first Expo/React Native development-build scaffold has been added, but it is not yet considered verified until dependencies are installed, the lockfile is committed, checks pass, and a development client is launched on the iOS device.
+Leaflet is a greenfield project. Task 0001 is in progress on `feat/application-foundation`: the Expo/React Native development-build scaffold is committed with a lockfile, and local install/typecheck/Expo Doctor/export checks pass. The EAS project (`@trashpandadev/leaflet`) is linked. It is not considered fully verified until an iOS development client is built, installed, and launched from Metro on the iPhone, which waits on Apple Developer activation.
 
 The Seed domain is specified and approved as a revisable implementation baseline. Tasks 0002–0006 are queued so the core can be built deterministically and reviewed in small slices before any AI integration.
 
@@ -43,10 +43,10 @@ The Seed domain is specified and approved as a revisable implementation baseline
 
 Task 0001 targets Expo SDK 57, React Native, TypeScript, npm, and Expo development builds rather than Expo Go as the primary development environment.
 
-After pulling `feat/application-foundation`:
+Use Node.js 22.13.0 (see `.nvmrc`). On Windows with `fnm`, run `fnm use` in the repository (or `fnm install 22.13.0` first). Then, after pulling `feat/application-foundation`, install exactly from the committed lockfile:
 
 ```bash
-npm install
+npm ci
 npm run typecheck
 npm run doctor
 ```

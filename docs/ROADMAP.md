@@ -5,9 +5,9 @@ This roadmap is ordered by dependency, not by promised date.
 ## Phase 0 — Verify the mobile development foundation
 
 - Use Expo SDK 57, React Native, TypeScript, npm, and Expo development builds.
-- Install dependencies and commit the generated lockfile.
+- Install from the committed lockfile with `npm ci`.
 - Verify type checking and Expo Doctor.
-- Link an EAS project only when needed to produce the first development build.
+- The EAS project is linked; register the device and produce the first development build after Apple Developer activation.
 - Install and launch the development client on the iOS device.
 - Keep Expo Go non-authoritative so native features can be added later without changing the development model.
 

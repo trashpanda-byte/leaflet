@@ -15,7 +15,7 @@ The current scaffold selects:
 - **Runtime baseline:** Node.js 22.13+
 - **Development environment:** Expo development builds using `expo-dev-client`
 - **Native project model:** Expo Continuous Native Generation; generated `ios/` and `android/` directories are not the primary source of truth
-- **Cloud build configuration:** EAS profiles are declared, but the project is not yet linked or verified through an actual EAS build
+- **Cloud build configuration:** EAS profiles are declared and the project is linked (`@trashpandadev/leaflet`, `com.trashpandadev.leaflet` iOS bundle identifier), but no EAS build, device registration, or signing credential has been created or verified yet
 - **Database:** Supabase is planned but not initialized in the application scaffold yet
 - **AI:** intentionally absent from the application scaffold and first deterministic Seed milestones
 

@@ -19,13 +19,16 @@ Native `ios/` and `android/` directories are generated through Expo Continuous N
 
 ## First local setup
 
+Select Node.js 22.13.0 (`.nvmrc`). On Windows with `fnm`: `fnm install 22.13.0` once, then `fnm use` in the repository (or prepend the version's `installation` directory to `PATH`). Confirm with `node -v`.
+
 ```bash
-npm install
+npm ci
 npm run typecheck
 npm run doctor
+bash scripts/validate-repository.sh
 ```
 
-The first `npm install` should create `package-lock.json`. Commit that lockfile before Task 0001 is considered complete.
+`package-lock.json` is committed; use `npm ci` for reproducible setup and CI parity. Use `npm install` only when intentionally changing dependencies, and commit the resulting lockfile change. Note that a different npm version may cosmetically rewrite optional-package metadata (for example `libc` fields); do not commit such churn on its own.
 
 ## Start the development server
 
@@ -39,16 +42,17 @@ This runs Metro in development-client mode.
 
 ## Create a cloud development build
 
-Install or invoke the current EAS CLI, sign in, and link this repository to an EAS project:
+The repository is already linked to the EAS project `@trashpandadev/leaflet` (ID `0dd168ed-e23c-475f-830d-32190618a508`, owner `trashpandadev`, both in `app.json`); do not run `eas init` again. Sign in with `npx eas-cli@latest login` if needed and confirm with `npx eas-cli@latest whoami`. The development iOS bundle identifier is `com.trashpandadev.leaflet`.
 
-```bash
-npx eas-cli@latest login
-npx eas-cli@latest init
-```
+Remaining physical-device steps (blocked until Apple Developer enrollment is active; none has been performed or verified):
 
-`eas init` writes the EAS project ID into app configuration. Review that change before committing it.
+1. Register the iPhone for internal distribution (`npx eas-cli@latest device:create`).
+2. Build: `npx eas-cli@latest build --platform ios --profile development`.
+3. Install the build on the registered iPhone.
+4. Run `npm start` and confirm the development client loads the Leaflet shell from Metro.
+5. Record the fresh-clone/device result in the TASK-0001 handoff.
 
-Then build the desired target:
+Build targets:
 
 ```bash
 # Android physical device or emulator

@@ -6,7 +6,7 @@
 
 Leaflet is a greenfield project. The first application scaffold exists on the `feat/application-foundation` branch.
 
-The selected foundation is Expo SDK 57 + React Native + TypeScript + npm with `expo-dev-client` and EAS development-build profiles. Local dependency installation, lockfile reproduction, TypeScript, Expo Doctor, repository validation, and Metro startup are verified. The development build is **not yet verified on an iPhone** because EAS project linking, iOS device registration/build, and a real-device launch still need to occur.
+The selected foundation is Expo SDK 57 + React Native + TypeScript + npm with `expo-dev-client` and EAS development-build profiles. Local dependency installation (`npm ci` from the committed lockfile), TypeScript, Expo Doctor, repository validation, Metro startup, and an iOS JS export are verified locally. The EAS project `@trashpandadev/leaflet` is linked and the iOS bundle identifier is `com.trashpandadev.leaflet`. The development build is **not yet verified on an iPhone**: iOS device registration, the development build, installation, and a real-device Metro launch still need to occur after Apple Developer activation (user-reported pending).
 
 The Seed product/domain baseline is now approved and documented in `docs/SEED_DOMAIN.md`. Tasks 0002–0006 are queued in dependency order so Claude can implement small bounded Seed slices and Codex can review each one independently. The resolver/action/schedule boundaries are now specified, and TASK-0007 is queued for the provider-neutral internal Schedule domain after the Seed architecture checkpoint.
 
@@ -48,12 +48,12 @@ Do not start Task 0002 implementation until Task 0001 is verified and merged. Do
 | Internal schedule plan | ACTION/Schedule contracts defined; TASK-0007 queued |
 | AI integration | Intentionally prohibited before TASK-0006 completes |
 | Automated app tests | Not configured |
-| CI | Repository contract, lockfile install, typecheck, and Expo Doctor configured; remote run pending push |
+| CI | Repository contract, lockfile install, typecheck, and Expo Doctor configured; workflow triggers on pull requests and pushes to `main`; run 35533800411 for `aeab1c8` passed all steps (checked by Codex); commits after `aeab1c8` need a new run |
 | Production | Not created or changed by this repository |
 
 ## Waiting on Chris
 
-The immediate hands-on step is the development build: link the EAS project, register the iPhone, create the development build, and launch it after Apple Developer enrollment is active.
+The immediate hands-on step is the development build: once Apple Developer enrollment is active, register the iPhone, create the iOS development build, install it, and launch it from Metro. The EAS project is already linked.
 
 No Seed product decision currently blocks Task 0002. The approved rules may be revised later through the normal decision/documentation workflow.
 
