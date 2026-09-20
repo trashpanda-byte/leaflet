@@ -25,7 +25,9 @@ The user opens Leaflet, captures a Seed quickly, receives a brief result, and ca
 - [ ] Obvious deterministic organization is reflected without exposing unnecessary internals.
 - [ ] Unresolved Seeds have a calm understandable state.
 - [ ] Exploratory Seeds expose the smallest useful Grow / Hold / Snip controls.
-- [ ] Explicit reversible commands may show completed action + Undo rather than redundant Grow/Hold/Snip.
+- [ ] Explicit reversible commands may show completed action + Undo **only when the relevant domain executor actually succeeds**.
+- [ ] Recognized but unsupported/failed Task or Event intents do not show false success; the source Seed remains safely available.
+- [ ] Successful explicit actions that fully satisfy their source Seed cause it to resolve automatically.
 - [ ] Retry/double-tap does not accidentally duplicate the same request.
 - [ ] Loading, offline/retry boundary, error, empty, success, keyboard, accessibility, and reduced-motion behavior are considered.
 - [ ] No AI/model-provider dependency is introduced.
@@ -42,7 +44,7 @@ The user opens Leaflet, captures a Seed quickly, receives a brief result, and ca
 
 ## Refactor / architecture checkpoint
 
-Keep capture UI thin. Domain behavior belongs in shared services/modules that future widget and platform entry points can reuse.
+Keep capture UI thin. Domain behavior belongs in shared services/modules that future widget and platform entry points can reuse. The UI consumes SeedResolver/domain-service results; it does not implement parser, Undo, Task, or Schedule rules itself.
 
 ## AI necessity review
 
