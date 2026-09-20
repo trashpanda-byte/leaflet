@@ -4,28 +4,33 @@
 
 ## Overall state
 
-Leaflet is a greenfield project. The first application scaffold now exists on the `feat/application-foundation` branch.
+Leaflet is a greenfield project. The first application scaffold exists on the `feat/application-foundation` branch.
 
-The selected foundation is Expo SDK 57 + React Native + TypeScript + npm with `expo-dev-client` and EAS development-build profiles. The files are committed, but the development build is **not yet verified as running** because dependency installation, lockfile generation, Expo Doctor/typecheck execution, EAS project linking, and a real device/simulator launch still need to occur in a networked development environment.
+The selected foundation is Expo SDK 57 + React Native + TypeScript + npm with `expo-dev-client` and EAS development-build profiles. The files are committed, but the development build is **not yet verified as running** because dependency installation, lockfile generation, Expo Doctor/typecheck execution, EAS project linking, iOS device registration/build, and a real-device launch still need to occur.
 
-No Supabase client, Seed schema, authentication, AI provider SDK, or model calls have been introduced into the application scaffold.
+The Seed product/domain baseline is now approved and documented in `docs/SEED_DOMAIN.md`. Tasks 0002–0006 are queued in dependency order so Claude can implement small bounded slices and Codex can review each one independently.
+
+No Supabase client, Seed schema, authentication, AI provider SDK, or model calls have been introduced into application code yet.
 
 ## Current focus
 
-Finish Task 0001 by installing dependencies, committing the lockfile, running checks, and successfully launching a development build. Do not start the Seed feature implementation before that verification.
+Finish Task 0001 and successfully launch the development build on the iOS device.
 
-After Task 0001, build the Seed loop with database/application logic first and defer AI integration.
+Do not start Task 0002 implementation until Task 0001 is verified and merged. Documentation/specification work for the Seed core is ready.
 
 ## Completed in this foundation
 
 - shared product, design, engineering, security, database, and AI rules;
 - separate implementation and independent-review responsibilities;
-- definition of done, handoff, review, and decision-request formats;
+- definition of done, handoff, review, refactor-checkpoint, and decision-request formats;
 - canonical brand-board and app-icon references;
 - Expo/React Native/TypeScript scaffold on a feature branch;
 - Expo development-client dependency and EAS development profiles;
 - development setup documentation;
-- explicit deterministic-before-AI implementation order.
+- approved Seed domain baseline;
+- deterministic-before-AI implementation order;
+- queued Seed implementation tasks 0002–0006;
+- mandatory architecture/refactor checkpoint before AI.
 
 ## Health
 
@@ -33,29 +38,30 @@ After Task 0001, build the Seed loop with database/application logic first and d
 |---|---|
 | Application code | Initial Expo scaffold committed on feature branch |
 | Stack selection | Selected; verification pending |
-| Development build | Configured; not yet launched/verified |
+| Development build | Configured; iOS launch not yet verified |
 | Package lock | Pending local/networked `npm install` |
 | Design direction | Canonical references committed; full implementation pending |
-| Local Supabase | Not initialized |
-| Seed/domain logic | Not started |
-| AI integration | Intentionally not started |
+| Seed product/domain rules | Approved baseline; revisable during development |
+| Local Supabase | Not initialized; TASK-0002 queued |
+| Seed/domain implementation | Not started |
+| Seed implementation plan | TASK-0002 through TASK-0006 queued |
+| AI integration | Intentionally prohibited before TASK-0006 completes |
 | Automated app tests | Not configured |
 | CI | Repository-contract checks only; app-specific checks pending |
-| Preview deployment | Not configured/verified |
 | Production | Not created or changed by this repository |
 
 ## Waiting on Chris
 
-A local or EAS-backed run is needed to finish verification. The next hands-on step is to pull the feature branch on the development machine, run `npm install`, then follow `docs/DEVELOPMENT.md`.
+The immediate hands-on step is still the development build: pull the feature branch on the Windows development machine, run `npm install`, perform the documented checks, register the iPhone with EAS, create the development build, and launch it.
 
-No product decision is currently blocking the foundation.
+No Seed product decision currently blocks Task 0002. The approved rules may be revised later through the normal decision/documentation workflow.
 
 ## Next
 
-1. Install dependencies and commit `package-lock.json`.
-2. Run `npm run typecheck` and `npm run doctor`.
-3. Create/install the development client on Android and/or iOS and launch the scaffold.
-4. Complete independent review and merge Task 0001.
-5. Initialize Supabase locally with migrations and RLS test foundations.
-6. Define and implement the deterministic Seed data model and state machine.
-7. Add AI only after deterministic unresolved cases are observable.
+1. Finish and merge TASK-0001.
+2. Implement TASK-0002 Seed persistence/RLS foundation.
+3. Implement TASK-0003 lifecycle and reversible actions.
+4. Implement TASK-0004 deterministic organization/relationships.
+5. Implement TASK-0005 iOS capture vertical slice.
+6. Complete TASK-0006 Seed architecture checkpoint.
+7. Consider AI only from measured unresolved cases after the checkpoint.
