@@ -12,7 +12,7 @@ Before reviewing, read:
 6. `docs/ai/DEFINITION_OF_DONE.md`
 7. the active task and implementation handoff
 
-For any Seed-related review, also read `docs/SEED_DOMAIN.md` and treat its current invariants as acceptance constraints unless a later decision explicitly supersedes them.
+For any Seed-related review, also read `docs/SEED_DOMAIN.md` and treat its current invariants as acceptance constraints unless a later decision explicitly supersedes them. For action/Undo changes, also read `docs/ACTION_CONTRACTS.md`; for Event/scheduling changes, also read `docs/SCHEDULE_DOMAIN.md`.
 
 Follow `docs/ai/CODEX_ROLE.md`. Inspect the actual diff and surrounding code; do not accept the author's summary as proof. Lead with concrete findings ordered by severity and include file references, impact, and a verification or remediation path.
 
