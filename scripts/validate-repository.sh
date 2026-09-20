@@ -40,7 +40,27 @@ if git grep -I -q -E "$secret_pattern" -- . ':!scripts/validate-repository.sh'; 
 fi
 
 if [[ -f package.json ]]; then
-  echo "package.json detected. Application-specific CI must be configured and documented as part of TASK-0001."
+  application_workflow=".github/workflows/repository-contract.yml"
+  required_ci_commands=(
+    "npm ci"
+    "npm run typecheck"
+    "npm run doctor"
+  )
+
+  if [[ ! -s "$application_workflow" ]]; then
+    echo "Application scaffold detected without an application CI workflow." >&2
+    exit 1
+  fi
+
+  application_workflow_contents="$(<"$application_workflow")"
+  for command in "${required_ci_commands[@]}"; do
+    if [[ "$application_workflow_contents" != *"$command"* ]]; then
+      echo "Application CI is missing required command: $command" >&2
+      exit 1
+    fi
+  done
+
+  echo "Application-specific CI commands are configured."
 else
   echo "Greenfield application not scaffolded yet; repository contract validation only."
 fi

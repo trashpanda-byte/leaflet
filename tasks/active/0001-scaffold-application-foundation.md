@@ -20,11 +20,11 @@ An authorized contributor can clone the repository, install dependencies, create
 ## Acceptance criteria
 
 - [x] The chosen framework, package manager, runtime baseline, repository layout, and rationale are recorded.
-- [ ] Supported versions are pinned through project files **and a committed lockfile**.
+- [x] Supported versions are pinned through project files **and a committed lockfile**.
 - [ ] A minimal Leaflet development shell starts from a fresh clone using exact README commands.
 - [x] The scaffold follows the product/design constitutions without implementing product features prematurely.
-- [ ] Type checking and Expo Doctor pass or any remaining issue is explicitly documented.
-- [ ] App-specific CI is added at the level justified by the current scaffold, or explicitly deferred with a reason.
+- [x] Type checking and Expo Doctor pass or any remaining issue is explicitly documented.
+- [x] App-specific CI is added at the level justified by the current scaffold, or explicitly deferred with a reason.
 - [x] No secret values were added to `.env.example`.
 - [x] README, architecture, development, roadmap, and status documentation describe the current setup and boundaries.
 - [ ] The iPhone is registered as required and an iOS development build is created/installed.
@@ -101,7 +101,55 @@ Still required in a networked development environment:
 
 ## Implementation handoff
 
-Pending runtime/device verification.
+### Implementation summary
+
+The Windows local-development setup is verified with Node.js 22.13.0. The committed npm lockfile reproduces the dependency installation, and CI now installs from that lockfile before running the repository contract, TypeScript, and Expo Doctor checks.
+
+The local Expo development server reaches the Metro ready state. iOS signing, installation, and real-device launch remain pending Apple Developer enrollment and are not claimed as verified.
+
+### Changed files
+
+- dependency configuration: `package-lock.json`;
+- CI and repository validation: `.github/workflows/repository-contract.yml` and `scripts/validate-repository.sh`;
+- documentation: this task and `docs/STATUS.md`.
+
+### Refactor and architecture pass
+
+No product or Seed code was introduced. The scaffold remains minimal, and the provisional CI note was replaced with executable application checks.
+
+### Data and security impact
+
+No database, authentication, user data, or secrets were added. Only `.env.example` is tracked; private environment names and dependency output remain ignored.
+
+### AI necessity and cost impact
+
+None. No model behavior or provider dependency was added.
+
+### Verification evidence
+
+- `npm install`: passed; 474 packages installed and `package-lock.json` generated;
+- `npm ci`: passed; clean lockfile install reproduced all 474 packages;
+- `npm run typecheck`: passed with no TypeScript errors;
+- `npm run doctor`: passed all 21 checks;
+- `bash scripts/validate-repository.sh`: passed;
+- `npm ls --depth=0`: passed with the expected direct dependencies;
+- `npm start -- --offline`: Metro reached `Waiting on http://localhost:8081`, then was stopped after the smoke test;
+- tracked-file and credential-pattern checks: no private env file, dependency directory, credential-like file, or high-confidence live-token pattern found.
+
+### Known limitations and follow-ups
+
+- The global Windows Node.js installation is newer than the repository-supported major version. `fnm` 1.39.0 is configured for the Windows user and automatically selects Node.js 22.13.0 from `.nvmrc` when entering the repository.
+- npm reports 10 moderate advisories in Expo's transitive native tooling. Its proposed forced fix downgrades Expo to SDK 46 and was not applied.
+- The GitHub workflow must pass after this commit is pushed.
+- EAS project linking, iOS device registration, development-build installation, and real-device launch remain pending.
+
+### Decisions
+
+No RED decision was made. Application CI uses the existing Node/npm/Expo choices and the repository's `.nvmrc`.
+
+### Review target
+
+`feat/application-foundation` against `main`; final commit SHA to be recorded after commit.
 
 ## Independent review
 
