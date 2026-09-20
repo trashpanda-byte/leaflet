@@ -120,7 +120,9 @@ Leaflet should choose the smallest useful next step rather than show a large wor
 
 Leaflet does not automatically Grow Seeds by default. It may offer to Grow a relevant Seed. More autonomous behavior requires an explicit later product decision or opt-in.
 
-Before generative AI exists, Grow may use deterministic templates or supported structured actions. If the deterministic system cannot provide a useful next step, it may leave the case unresolved rather than pretending.
+Before generative AI exists, Grow is intentionally narrow. It may use a small set of explicit deterministic templates or supported structured transformations, such as asking for one missing field or offering to turn an idea into a known structured object.
+
+Do not build a rule-heavy imitation of an LLM. If the deterministic system does not have a genuinely useful supported Grow step, leave the case unresolved or simply preserve it for later.
 
 ### Hold
 
@@ -158,8 +160,14 @@ Leaflet should avoid redundant confirmation when the user already gave a clear, 
 
 Examples:
 
-- “Remind me to call Mom tomorrow.” → create the internal Task/reminder and show Undo.
-- “Put gym on Tuesday at 5.” → create the internal Event and show Undo.
+- “Remind me to call Mom tomorrow.” → emit a typed `create_task` action intent; when the Task service exists and executes it successfully, show the result + Undo.
+- “Put gym on Tuesday at 5.” → emit a typed `create_event` action intent; when the Schedule service exists and executes it successfully, show the result + Undo.
+
+The Seed core recognizes typed action intent without owning the Task or Schedule subsystem. Recognition is not execution.
+
+When a clear action fully satisfies the Seed and execution succeeds, the source Seed becomes **resolved** automatically unless part of the Seed still needs attention.
+
+If execution fails or the subsystem is not implemented, preserve the Seed and do not display false success.
 
 Ambiguous or exploratory language does **not** create commitments:
 
@@ -179,6 +187,35 @@ Example:
 Leaflet preserves the original Seed and may identify three derived actions. It should not split or rewrite the source capture as if the user had entered three separate Seeds.
 
 ## Organization
+
+### Topic versus Branch
+
+A **Topic** is a stored organizational concept.
+
+A **Relationship** is a stored typed connection among Seeds, Topics, and later domain objects.
+
+A **Branch** is primarily how the Tree presents a path through Topics and relationships. Do not create a separate Branch persistence model merely because the UI uses the branch metaphor.
+
+Example:
+
+```text
+Topic: Health
+Topic: Fitness
+Relationship: Fitness part_of Health
+
+Tree renders:
+Health
+  └─ Fitness
+```
+
+The initial relationship vocabulary should stay small:
+
+- `about` — a Seed/object concerns a Topic;
+- `part_of` — one stable concept is hierarchically contained by another;
+- `related_to` — meaningful non-hierarchical connection;
+- `derived_from` — provenance from an origin Seed/object.
+
+A primary organizational home, if needed, is metadata/policy on a relationship rather than a new relationship vocabulary explosion.
 
 ### Default behavior
 
@@ -228,6 +265,34 @@ For navigation simplicity, Leaflet may maintain one primary organizational home 
 
 The future Tree should emphasize stable Topics, Goals, Projects, and meaningful relationships. Individual Seeds may appear when exploring deeper context, but they should not overwhelm the visible structure.
 
+## Deterministic resolver
+
+Seed interpretation lives behind a distinct `SeedResolver` boundary.
+
+Conceptually:
+
+```text
+Seed + authorized deterministic context
+  ↓
+SeedResolver
+  ↓
+resolved | ambiguous | unresolved
+```
+
+The resolver does not write domain state directly. It returns typed resolution data, relationships, and/or ActionIntents for normal application validators/executors.
+
+Resolution authority is ordered:
+
+1. explicit user instruction or current explicit correction;
+2. user-created or user-confirmed relationship/alias;
+3. exact match to existing structured state;
+4. deterministic parser/rule that produces one unambiguous interpretation;
+5. otherwise ambiguous or unresolved.
+
+A lower-authority rule may not override higher-authority user knowledge.
+
+If two viable interpretations conflict at the highest applicable authority level, return **ambiguous** instead of arbitrarily choosing one.
+
 ## Resolution basis and uncertainty
 
 Do not invent pseudo-scientific confidence percentages.
@@ -272,13 +337,29 @@ Example:
 
 Leaflet may remember that association for this user.
 
-Initial reuse should be narrow:
+Initial reuse is deliberately conservative:
 
-- exact term;
-- obvious close variants;
-- directly confirmed aliases.
+- the exact normalized term the user corrected;
+- aliases the user explicitly confirms.
 
-Do not jump from one correction to broad semantic assumptions such as treating every strength exercise the same way unless repeated evidence supports it.
+Do **not** automatically generalize one correction to “obvious close variants” in the first deterministic implementation.
+
+Example:
+
+```text
+Correction:
+"weights" → Strength Training
+
+Learn now:
+"weights" → Strength Training
+
+Do not infer yet:
+"deadlifts" → Strength Training
+"squats" → Strength Training
+"weight lifting" → Strength Training
+```
+
+Broader generalization requires later repeated evidence, explicit confirmation, or an approved inference capability.
 
 User-created structure and explicit corrections carry stronger authority than inferred structure.
 
@@ -341,7 +422,8 @@ The initial architecture should therefore avoid assumptions that every Seed must
 
 Creation should support:
 
-- client-generated identity or idempotency;
+- a stable client-generated Seed identifier/request identity suitable for offline capture and retry;
+- an idempotency key/identity that is not derived from semantic content;
 - safe retry;
 - later synchronization;
 - multiple future capture sources such as app, widget, or voice.
@@ -408,5 +490,7 @@ The first Seed core milestone is successful when a user can:
 13. prevent cross-user access through RLS and authorization tests;
 14. keep repeated-but-genuine thoughts separate;
 15. complete the entire flow with **zero generative AI calls**.
+
+Action execution and Undo follow `docs/ACTION_CONTRACTS.md`. Scheduling follows `docs/SCHEDULE_DOMAIN.md`.
 
 After this works end-to-end, perform the Seed architecture/refactor checkpoint before designing the AI fallback layer.
