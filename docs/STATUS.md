@@ -19,6 +19,7 @@ Select and record the initial application stack, scaffold a minimal reproducible
 - definition of done, handoff, review, and decision-request formats;
 - active-task format and severity model;
 - initial durable decisions;
+- canonical brand-board and app-icon references;
 - repository hygiene and a provisional contract check.
 
 ## Health
@@ -27,6 +28,7 @@ Select and record the initial application stack, scaffold a minimal reproducible
 |---|---|
 | Application code | Not started; greenfield scaffold pending |
 | Stack selection | Not yet recorded |
+| Design direction | Canonical references committed; implementation pending |
 | Local app startup | Not configured |
 | Local Supabase | Not initialized |
 | Automated app tests | Not configured |
