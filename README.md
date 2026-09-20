@@ -6,13 +6,14 @@ This repository is also the source of truth for how Leaflet is built. Product de
 
 ## Current repository state
 
-Leaflet is a greenfield project. There is no pre-existing application to import or preserve. The repository currently contains the project operating system—product direction, architecture boundaries, security rules, agent roles, task formats, and repository checks—while the application itself has not been scaffolded yet. See [docs/STATUS.md](docs/STATUS.md).
+Leaflet is a greenfield project. Task 0001 is now in progress on `feat/application-foundation`: the first Expo/React Native development-build scaffold has been added, but it is not yet considered verified until dependencies are installed, the lockfile is committed, checks pass, and a development client is launched on a real device or simulator. See [docs/STATUS.md](docs/STATUS.md).
 
 ## Start here
 
 - Product: [docs/PRODUCT.md](docs/PRODUCT.md)
 - Design: [docs/DESIGN.md](docs/DESIGN.md)
 - Architecture: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)
+- Development: [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md)
 - AI architecture: [docs/AI_ARCHITECTURE.md](docs/AI_ARCHITECTURE.md)
 - Security: [docs/SECURITY.md](docs/SECURITY.md)
 - Project status: [docs/STATUS.md](docs/STATUS.md)
@@ -31,6 +32,22 @@ Leaflet is a greenfield project. There is no pre-existing application to import 
 
 ## Local setup
 
-Application-specific setup commands do not exist yet because the greenfield application has not been scaffolded. Task 0001 will select and record the stack, create the initial app, and replace this section with exact, tested commands for installing dependencies, starting the app, starting local Supabase where applicable, resetting the database, running tests, and building production output.
+Task 0001 currently targets Expo SDK 57, React Native, TypeScript, npm, and Expo development builds rather than Expo Go as the primary development environment.
 
-Never commit `.env.local` or real credentials. Copy `.env.example` only after the application declares the variables it actually uses.
+After pulling `feat/application-foundation`:
+
+```bash
+npm install
+npm run typecheck
+npm run doctor
+```
+
+Then follow [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md) to create or install the development client and start Metro with:
+
+```bash
+npm start
+```
+
+Do not begin Seed/AI feature work until the development build is verified. After that, Leaflet will implement the Seed loop as database and deterministic application logic first. AI integration remains a later fallback for cases that cannot be resolved reliably in code.
+
+Never commit `.env.local` or real credentials.
