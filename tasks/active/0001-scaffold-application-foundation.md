@@ -7,14 +7,15 @@
 | Reviewer | Codex |
 | Branch | `feat/application-foundation` |
 | Risk | medium |
+| Depends on | none |
 
 ## Why
 
-Leaflet is a greenfield project with no pre-existing build. The first engineering task is to choose a maintainable foundation deliberately, create a minimal reproducible application, and establish real commands and tests before product features accumulate.
+Leaflet is a greenfield project with no pre-existing build. The first engineering task is to establish a maintainable mobile foundation and verify a real Expo development build before product/database work accumulates.
 
 ## Expected experience
 
-An authorized contributor can clone the repository, install dependencies, create or install an Expo development client, start Metro, and see a minimal Leaflet development shell on a target device or simulator.
+An authorized contributor can clone the repository, install dependencies, create or install an Expo development client, start Metro, and see a minimal Leaflet development shell on the registered iOS device.
 
 ## Acceptance criteria
 
@@ -22,13 +23,13 @@ An authorized contributor can clone the repository, install dependencies, create
 - [ ] Supported versions are pinned through project files **and a committed lockfile**.
 - [ ] A minimal Leaflet development shell starts from a fresh clone using exact README commands.
 - [x] The scaffold follows the product/design constitutions without implementing product features prematurely.
-- [ ] Local Supabase is initialized through repository configuration, an initial migration, and synthetic seed data.
-- [ ] At least two synthetic users are represented wherever tenant-isolation tests require them.
-- [ ] Formatting, linting, type checking, unit-test, integration-test, and production-build foundations are configured or explicitly documented as not yet applicable.
+- [ ] Type checking and Expo Doctor pass or any remaining issue is explicitly documented.
+- [ ] App-specific CI is added at the level justified by the current scaffold, or explicitly deferred with a reason.
 - [x] No secret values were added to `.env.example`.
-- [ ] App-specific CI replaces or extends the provisional repository-contract workflow.
 - [x] README, architecture, development, roadmap, and status documentation describe the current setup and boundaries.
-- [ ] A fresh-clone verification is recorded in the implementation handoff.
+- [ ] The iPhone is registered as required and an iOS development build is created/installed.
+- [ ] The development client successfully loads the Leaflet shell from Metro on the iPhone.
+- [ ] A fresh-clone/device verification is recorded in the implementation handoff.
 
 ## Current implementation
 
@@ -41,11 +42,14 @@ An authorized contributor can clone the repository, install dependencies, create
 - `expo-dev-client`
 - EAS development and iOS-simulator build profiles
 - minimal Leaflet-branded shell
-- no Supabase client, auth, Seed logic, or AI integration yet
+- approved Seed domain specification and queued implementation tasks
+- no Supabase client, auth, Seed implementation, or AI integration yet
 
 ## Out of scope
 
-- automatic thought organization;
+- Supabase initialization or database migrations — moved to TASK-0002;
+- synthetic tenant data and RLS tests — moved to TASK-0002;
+- automatic Seed organization;
 - production user authentication;
 - model-provider integration or AI calls;
 - production database creation or migration;
@@ -60,11 +64,15 @@ An authorized contributor can clone the repository, install dependencies, create
 
 ## Technical notes
 
-Expo Go is not the compatibility target. Leaflet will use a project-specific development client so future native widgets, notifications, location, calendar access, and other integrations fit the development model.
+Expo Go is not the compatibility target. Leaflet uses a project-specific development client so future native widgets, notifications, location, calendar access, and other integrations fit the normal development model.
 
 Generated native directories are treated as build artifacts under Expo CNG unless a future native customization requires a deliberate change.
 
-The next product phase is explicitly deterministic-first: build the Seed database/domain/state/action loop before adding any model-provider SDK.
+Seed behavior is specified now so implementation can begin immediately after this task, but Task 0001 intentionally stops before database/domain coding. TASK-0002 owns the first Supabase and Seed persistence work.
+
+## Refactor / architecture checkpoint
+
+Keep this scaffold minimal. Remove template/demo code and obvious setup cruft before handoff, but do not create product abstractions until the Seed work demonstrates a need.
 
 ## AI necessity review
 
@@ -72,7 +80,9 @@ No model behavior is part of this task. Do not introduce an LLM call into the sc
 
 ## Security and data review
 
-No user data is stored by the current scaffold. When Supabase is introduced, user-owned tables require RLS, explicit policies, and negative cross-user tests in the same feature scope.
+No user data is stored by the current scaffold. Secrets must not be committed or exposed in client configuration.
+
+When Supabase is introduced in TASK-0002, user-owned tables require RLS, explicit policies, and negative cross-user tests in the same task.
 
 ## Verification plan
 
@@ -83,14 +93,16 @@ Still required in a networked development environment:
 - run `npm run doctor`;
 - run `bash scripts/validate-repository.sh`;
 - link EAS only as needed for the first development build;
-- create/install a development client;
-- launch the scaffold on at least one target platform;
-- verify no private environment file or generated dependency directory is tracked.
+- register the iPhone when required;
+- create/install the iOS development client;
+- launch the scaffold from Metro on the iPhone;
+- verify no private environment file or generated dependency directory is tracked;
+- rerun relevant checks after cleanup.
 
 ## Implementation handoff
 
-Pending runtime verification.
+Pending runtime/device verification.
 
 ## Independent review
 
-Pending runtime verification and handoff.
+Pending runtime/device verification and handoff.
