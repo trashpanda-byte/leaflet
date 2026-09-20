@@ -72,7 +72,6 @@ Record durable product and architecture choices here. Append entries; do not rew
 
 **Revisit when:** Chris approves a replacement visual system or a specific implementation constraint requires an explicit, recorded adjustment.
 
-
 ## 2026-09-20 — Expo development builds are the mobile development baseline
 
 **Decision:** Leaflet uses Expo SDK 57, React Native, TypeScript, npm, and project-specific Expo development builds. Expo Go is not a compatibility requirement.
@@ -92,3 +91,15 @@ Record durable product and architecture choices here. Append entries; do not rew
 **Consequence:** AI is not part of the initial Seed pipeline milestone. Unresolved cases are recorded and surfaced safely rather than automatically routed to a model. Later AI work must be justified by those measured gaps and remain a bounded fallback.
 
 **Revisit when:** The deterministic Seed loop is working end-to-end and real unresolved/correction cases demonstrate a specific need for model inference.
+
+## 2026-09-20 — Refactor at proven boundaries and architecture checkpoints
+
+**Decision:** Leaflet uses deliberate refactor passes rather than continuous cleanup or large late-stage rewrites. Implement the simplest correct solution first, clean the changed area before handoff, abstract only after repetition or coupling is proven, and perform broader architecture reviews before major new subsystems are layered on top.
+
+**Reason:** Premature abstraction creates complexity before the problem is understood, while delaying all cleanup allows technical debt to compound. Timed cleanup gives the team enough real code to see the correct structure without letting poor structure become permanent.
+
+**Consequence:** Claude performs a focused cleanup pass before handoff; Codex reviews maintainability and architecture hygiene explicitly; tasks identify architecture checkpoints; large unrelated refactors normally receive their own task/PR; verification is rerun after structural changes.
+
+**Examples of architecture checkpoints:** deterministic Seed pipeline before AI fallback, scheduling core before external calendar integrations, context engine before location-aware behavior, and shared app/domain core before platform-specific widgets.
+
+**Revisit when:** The workflow creates excessive churn, slows delivery without measurable quality benefit, or repeated defects show the checkpoints are too infrequent.
