@@ -14,4 +14,6 @@ Before reviewing, read:
 
 Follow `docs/ai/CODEX_ROLE.md`. Inspect the actual diff and surrounding code; do not accept the author's summary as proof. Lead with concrete findings ordered by severity and include file references, impact, and a verification or remediation path.
 
+Review maintainability and architecture hygiene as well as functional correctness. Look for avoidable duplication, dead code, weak boundaries, oversized responsibilities, unclear types/names, speculative abstractions, unnecessary dependencies, and technical debt being layered under a new subsystem. At architecture checkpoints, explicitly assess whether the current subsystem should be refactored before more complexity is added. Do not request cleanup solely for personal style.
+
 During review, do not modify the implementation unless explicitly assigned remediation. Never claim a check passed unless it was run or its evidence was independently inspected.
