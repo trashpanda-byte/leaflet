@@ -103,3 +103,14 @@ Record durable product and architecture choices here. Append entries; do not rew
 **Examples of architecture checkpoints:** deterministic Seed pipeline before AI fallback, scheduling core before external calendar integrations, context engine before location-aware behavior, and shared app/domain core before platform-specific widgets.
 
 **Revisit when:** The workflow creates excessive churn, slows delivery without measurable quality benefit, or repeated defects show the checkpoints are too infrequent.
+
+
+## 2026-09-20 — Seed domain baseline approved as revisable implementation contract
+
+**Decision:** The rules in `docs/SEED_DOMAIN.md` are approved as the implementation baseline for the Seed core. Key rules include universal Seed capture, preserved original provenance, separate derived objects, many-to-many relationships, explicit reversible commands without redundant confirmation, ambiguity as a valid unresolved result, narrow learning from corrections, link-before-merge behavior, and zero generative AI through the deterministic Seed architecture checkpoint.
+
+**Reason:** These rules best match Leaflet's intended experience: fast capture, useful automation, low cognitive load, resource-conscious processing, and user control without turning the product into a configuration-heavy system.
+
+**Consequence:** TASK-0002 through TASK-0006 must implement and review against `docs/SEED_DOMAIN.md`. Claude must not silently reinterpret the product rules to simplify implementation, and Codex treats violations as review findings. The exact schema, module boundaries, and algorithms remain engineering choices as long as they preserve the domain contract.
+
+**Revisit when:** Development or real usage reveals a simpler, more helpful, safer, or more efficient behavior. Revisions are expected to be possible; update the domain document and record a superseding decision when a durable rule changes.
