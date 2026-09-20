@@ -114,3 +114,22 @@ Record durable product and architecture choices here. Append entries; do not rew
 **Consequence:** TASK-0002 through TASK-0006 must implement and review against `docs/SEED_DOMAIN.md`. Claude must not silently reinterpret the product rules to simplify implementation, and Codex treats violations as review findings. The exact schema, module boundaries, and algorithms remain engineering choices as long as they preserve the domain contract.
 
 **Revisit when:** Development or real usage reveals a simpler, more helpful, safer, or more efficient behavior. Revisions are expected to be possible; update the domain document and record a superseding decision when a durable rule changes.
+
+
+## 2026-09-20 — Seed resolver, Topic/Branch, action, and schedule boundaries
+
+**Decision:** Tighten the deterministic core before coding. Topic is the persisted organizational concept; Branch is primarily a Tree/UI projection of Topic relationships. Seed interpretation occurs behind a distinct deterministic `SeedResolver` with authority ordered from explicit user instruction/correction, to user-confirmed knowledge, to exact structured matches, to a single unambiguous parser/rule. Conflicting valid interpretations return ambiguous rather than being broken by a weaker heuristic.
+
+**Action boundary:** The Seed core emits allowlisted typed ActionIntents such as `create_task` and `create_event`; it does not own the Task or Schedule subsystem. Recognition is not execution. A successful action that fully satisfies a Seed resolves the source Seed; failed/unsupported downstream actions preserve the Seed and cannot display false success. Reversible domain executors return an ActionReceipt/Undo capability.
+
+**Relationships:** Start with a small relationship vocabulary: `about`, `part_of`, `related_to`, and `derived_from`. Explicit corrections initially learn only the exact normalized corrected term or aliases the user explicitly confirms.
+
+**Identity/durability:** Seed creation supports stable client-generated identity/idempotency for safe retry and future offline capture. The original Seed survives derived-action failure.
+
+**Schedule:** Leaflet owns a provider-neutral internal Event/Schedule model. Google Calendar, Apple Calendar, and future calendars integrate through adapters/mappings after the internal Schedule service exists; the Seed core never calls a provider directly.
+
+**Reason:** These boundaries reduce heuristic drift, prevent UI/provider coupling, keep Undo and failure semantics honest, and make the future calendar integration additive rather than a rewrite.
+
+**Consequence:** TASK-0002 through TASK-0006 enforce these boundaries. TASK-0007 establishes the internal Schedule domain before any external calendar adapter work.
+
+**Revisit when:** Implementation evidence shows a boundary is unnecessarily complex or a real product flow requires a different relationship/action/schedule contract.
