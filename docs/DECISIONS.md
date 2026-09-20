@@ -61,3 +61,13 @@ Record durable product and architecture choices here. Append entries; do not rew
 **Reason:** This direction was explicitly selected during product design exploration.
 
 **Consequence:** New design work follows `docs/DESIGN.md` unless Chris changes the direction.
+
+## 2026-09-20 — Clean organic brand system supersedes the retro character direction
+
+**Decision:** The committed brand board and app-icon reference in `docs/assets/design/` are Leaflet's canonical visual direction. Leaflet uses a Forest Green and Mint Cream foundation, rounded typography, clean organic components, and a simplified sprouting companion. This supersedes the earlier pixel-art, scrap-metal, exposed-bolt, and green-screen character details recorded above.
+
+**Reason:** Chris selected the new reference images as the product's design direction after reviewing the earlier character concept.
+
+**Consequence:** New design and implementation follow the visual rules and reference scope in `docs/DESIGN.md`. Copy, navigation labels, feature names, dates, and metrics inside the board remain illustrative unless approved separately as product behavior.
+
+**Revisit when:** Chris approves a replacement visual system or a specific implementation constraint requires an explicit, recorded adjustment.
