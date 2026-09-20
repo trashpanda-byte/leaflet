@@ -2,13 +2,14 @@
 
 This roadmap is ordered by dependency, not by promised date.
 
-## Phase 0 — Select and scaffold the application foundation
+## Phase 0 — Verify the mobile development foundation
 
-- Define the smallest first vertical slice that proves the product and technical workflow.
-- Select and record the framework, package manager, runtime versions, repository layout, and initial service boundaries.
-- Scaffold the application from clean, supported tooling rather than inheriting an unknown template.
-- Initialize local development, test foundations, and configuration templates without production credentials.
-- Record exact commands and the reasoning behind choices that will be costly to change later.
+- Use Expo SDK 57, React Native, TypeScript, npm, and Expo development builds.
+- Install dependencies and commit the generated lockfile.
+- Verify type checking and Expo Doctor.
+- Link an EAS project only when needed to produce the first development build.
+- Install and launch the development client on at least one target platform.
+- Keep Expo Go non-authoritative so native features can be added later without changing the development model.
 
 ## Phase 1 — Reproducible local development
 
@@ -17,27 +18,52 @@ This roadmap is ordered by dependency, not by promised date.
 - Establish exact format, lint, typecheck, test, build, and database-reset commands.
 - Create `.env.example` from actual variable usage without values.
 
-## Phase 2 — Safety and delivery gates
+## Phase 2 — Deterministic Seed foundation
+
+Build as much of the full loop as possible without generative AI:
+
+- define Seed lifecycle and typed domain objects;
+- create database schema, constraints, indexes, timestamps, provenance, and reversible state transitions;
+- implement ownership and RLS with cross-user denial tests;
+- implement Seed creation, update, Hold, Grow-state transitions, and Snip behavior;
+- build deterministic category matching, explicit-command parsing, exact lookups, aliases, and reusable learned relationships;
+- define confidence and uncertainty states;
+- implement typed action schemas and validators;
+- record why a Seed was classified or left unresolved;
+- expose unresolved cases cleanly instead of pretending confidence.
+
+No model-provider SDK belongs in this phase.
+
+## Phase 3 — Safety and delivery gates
 
 - Add unit, integration, end-to-end, and RLS/security test foundations.
 - Replace provisional repository CI with app-specific checks.
-- Configure feature branches, required pull-request checks, and preview deployments.
+- Configure feature branches, required pull-request checks, and preview builds.
 - Separate local, preview/staging, and production data and credentials.
 
-## Phase 3 — Prove the collaboration loop
+## Phase 4 — Prove the core Seed loop
 
-- Select one small, low-risk feature.
-- Run it through spec → Claude implementation → Codex review → remediation → CI → preview → product check → merge.
-- Record friction and automate only repeated, well-understood steps.
+- Capture a Seed in the app.
+- Persist it.
+- Resolve everything deterministic logic can resolve.
+- Show the resulting category/state and Grow / Hold / Snip controls.
+- Measure unresolved and correction cases.
+- Run the slice through spec → implementation → independent review → remediation → CI → product check → merge.
 
-## Phase 4 — Deterministic Leaflet foundation
+## Phase 5 — Add AI only for demonstrated gaps
 
-- Implement typed intents/actions, context retrieval, rules/parsers, semantic aliases, and the AI gateway.
-- Add action validation, confidence/confirmation policy, cost budgets, and deterministic-resolution telemetry.
-- Introduce provider-agnostic capability routing only when a product feature truly requires AI.
+- Review real unresolved cases from the deterministic Seed pipeline.
+- Add the provider-agnostic AI gateway.
+- Route only irreducibly ambiguous or generative work to the smallest suitable capability.
+- Keep model output schema-constrained and untrusted.
+- Validate every proposed action with normal code before writing state.
+- Track deterministic-resolution rate, model-call reasons, tokens, cost, validation rejection, and correction rate.
 
 ## Later
 
-- Add carefully scoped hooks and specialist agents.
-- Expand integrations only when a validated user flow needs them.
-- Improve learning from corrections with provenance, reversibility, and privacy controls.
+- iOS and Android widget entry points into the same Seed service;
+- calendar integration and schedule-aware assistance;
+- location-aware context with explicit permissions and privacy controls;
+- visual Tree experience;
+- social sharing and environmental-impact surfaces;
+- deeper learning from confirmed corrections with provenance, reversibility, and privacy controls.
