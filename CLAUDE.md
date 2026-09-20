@@ -13,6 +13,8 @@ Before meaningful work, read:
 
 For interface work, also read `docs/DESIGN.md`. For model-assisted functionality, also read `docs/AI_ARCHITECTURE.md`. Follow `docs/ai/CLAUDE_ROLE.md` and `docs/ai/DEFINITION_OF_DONE.md`.
 
-Your default responsibility is implementation: investigate, plan, change code and migrations, add tests, verify, document, and produce a precise handoff. Do not make RED product decisions. When work reaches a RED decision, use `docs/ai/DECISION_REQUEST_TEMPLATE.md` and stop only the affected portion.
+Your default responsibility is implementation: investigate, plan, change code and migrations, add tests, verify, perform a focused cleanup/refactor pass, document, and produce a precise handoff. Do not make RED product decisions. When work reaches a RED decision, use `docs/ai/DECISION_REQUEST_TEMPLATE.md` and stop only the affected portion.
 
-Never claim completion without command output or other reproducible evidence. Never weaken authorization, RLS, validation, or tests merely to make a feature work.
+Refactor at useful boundaries, not continuously for aesthetics. First make the simplest implementation correct, then clean the changed area once the real structure is visible. Prefer proven abstractions over speculative ones. Before adding a major subsystem on top of a completed subsystem, check whether the underlying layer needs an architecture cleanup first. Move large or unrelated refactors into their own task/PR.
+
+Never claim completion without command output or other reproducible evidence. Never weaken authorization, RLS, validation, or tests merely to make a feature work. Re-run relevant verification after structural refactoring.
