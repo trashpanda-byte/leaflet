@@ -6,7 +6,7 @@ This repository is also the source of truth for how Leaflet is built. Product de
 
 ## Current repository state
 
-The GitHub repository was empty when this foundation was created. This commit establishes the project operating system; it does **not** claim that the application, database, or test suite has been imported yet. See [docs/STATUS.md](docs/STATUS.md).
+Leaflet is a greenfield project. There is no pre-existing application to import or preserve. The repository currently contains the project operating system—product direction, architecture boundaries, security rules, agent roles, task formats, and repository checks—while the application itself has not been scaffolded yet. See [docs/STATUS.md](docs/STATUS.md).
 
 ## Start here
 
@@ -31,6 +31,6 @@ The GitHub repository was empty when this foundation was created. This commit es
 
 ## Local setup
 
-Application-specific setup commands cannot be documented until the existing Leaflet code is pushed into this repository. Once imported, replace this section with exact, tested commands for installing dependencies, starting the app, starting local Supabase, resetting the database, running tests, and building production output.
+Application-specific setup commands do not exist yet because the greenfield application has not been scaffolded. Task 0001 will select and record the stack, create the initial app, and replace this section with exact, tested commands for installing dependencies, starting the app, starting local Supabase where applicable, resetting the database, running tests, and building production output.
 
 Never commit `.env.local` or real credentials. Copy `.env.example` only after the application declares the variables it actually uses.

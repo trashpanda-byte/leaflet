@@ -4,13 +4,13 @@
 
 ## Overall state
 
-The GitHub repository is reachable but contained no commits or application files when the project foundation was created. The repository operating system now exists locally: product/design rules, engineering constitution, architecture and security boundaries, Claude/Codex roles, task/review templates, and provisional repository checks.
+Leaflet is intentionally starting from scratch. There is no pre-existing application, codebase, database schema, or deployment that needs to be imported or preserved.
 
-The Leaflet application itself has **not** been imported or verified in this repository. No claim is made about the app running, tests passing, Supabase being reproducible, Vercel previews working, or production readiness.
+The repository operating system is established: product/design rules, engineering constitution, architecture and security boundaries, Claude/Codex roles, task/review templates, and provisional repository checks. The application itself has **not been scaffolded yet**. No claim is made about the app running, application tests passing, Supabase being configured, Vercel previews working, or production readiness.
 
 ## Current focus
 
-Get the existing Leaflet code from Chris's PC into this repository, then perform a real inventory and replace provisional setup/CI notes with tested commands.
+Select and record the initial application stack, scaffold a minimal reproducible app, and replace provisional setup/CI notes with tested commands.
 
 ## Completed in this foundation
 
@@ -25,23 +25,25 @@ Get the existing Leaflet code from Chris's PC into this repository, then perform
 
 | Area | State |
 |---|---|
-| Application code | Not present in repository |
-| Local app startup | Not testable |
-| Local Supabase | Not present / not testable |
-| Automated app tests | Not present |
+| Application code | Not started; greenfield scaffold pending |
+| Stack selection | Not yet recorded |
+| Local app startup | Not configured |
+| Local Supabase | Not initialized |
+| Automated app tests | Not configured |
 | CI | Provisional repository-contract checks only |
 | Preview deployment | Not configured/verified |
-| Production | Not inspected or changed |
-| Known security blockers | Cannot assess app until code is imported |
+| Production | Not created or changed by this repository |
+| Known security blockers | No application attack surface exists yet; implementation review pending |
 
 ## Waiting on Chris
 
-Push the current Leaflet project files from the PC to `trashpanda-byte/leaflet`, or make them available in the same workspace. Do not include `.env.local`, API keys, database passwords, or other secrets.
+Nothing is currently blocked on Chris. If stack selection reveals a meaningful vendor, cost, privacy, product, or irreversible tradeoff, the implementation engineer must present a bounded decision request before proceeding with that choice.
 
 ## Next
 
-1. Import and inventory the application.
-2. Detect and document the real toolchain.
-3. Make local setup reproducible from a clean clone.
-4. Reconcile the existing Supabase schema into migrations with RLS tests.
+1. Complete Task 0001: select and scaffold the application foundation.
+2. Make local setup reproducible from a clean clone.
+3. Initialize local Supabase through versioned migrations and synthetic seed data.
+4. Add unit, integration, end-to-end, and RLS/security test foundations.
 5. Replace provisional CI with commands that exercise the actual app.
+6. Build one small vertical slice through the full Claude → Codex workflow.
