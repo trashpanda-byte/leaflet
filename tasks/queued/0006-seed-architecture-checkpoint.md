@@ -22,7 +22,11 @@ User behavior should remain unchanged. Internally, the Seed subsystem has clear 
 - [ ] Review persistence, lifecycle, action, organization, relationship, validation, and capture boundaries together.
 - [ ] Remove accidental duplication and dead/temporary code.
 - [ ] Consolidate only proven abstractions.
-- [ ] Keep UI, domain logic, data access, and platform-specific code from leaking into each other unnecessarily.
+- [ ] Keep UI, SeedResolver, domain logic, data access, and platform-specific code from leaking into each other unnecessarily.
+- [ ] Verify Topic/relationship storage remains separate from the Tree's Branch presentation metaphor.
+- [ ] Verify ActionIntents are provider/domain-neutral and that the Seed core has no direct Google/Apple Calendar dependency.
+- [ ] Verify failed downstream actions cannot destroy the source Seed and successful satisfying actions have a clear resolved transition.
+- [ ] Verify Undo/reversal logic is owned by domain executors rather than duplicated in UI.
 - [ ] Preserve the original Seed/provenance model and many-to-many relationships.
 - [ ] Verify unresolved is a first-class safe result rather than an error path.
 - [ ] Add/verify privacy-safe telemetry capable of measuring deterministic resolution mechanisms and unresolved/correction counts without logging raw private Seed text.
