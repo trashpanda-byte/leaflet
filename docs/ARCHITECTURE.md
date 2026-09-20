@@ -2,7 +2,7 @@
 
 ## Status
 
-Leaflet is a greenfield project. Task 0001 is establishing the first application foundation on `feat/application-foundation`.
+Leaflet is a greenfield project. Task 0001 is establishing the first application foundation on `feat/application-foundation`. The Seed domain baseline is approved in `docs/SEED_DOMAIN.md`, and implementation tasks are queued behind Task 0001 verification.
 
 ## Current implementation
 
@@ -17,32 +17,55 @@ The current scaffold selects:
 - **Native project model:** Expo Continuous Native Generation; generated `ios/` and `android/` directories are not the primary source of truth
 - **Cloud build configuration:** EAS profiles are declared, but the project is not yet linked or verified through an actual EAS build
 - **Database:** Supabase is planned but not initialized in the application scaffold yet
-- **AI:** intentionally absent from the application scaffold
+- **AI:** intentionally absent from the application scaffold and first deterministic Seed milestones
 
 See `docs/DEVELOPMENT.md` for the exact current setup path.
 
 ## Target runtime flow
 
 ```text
-Client
-  → typed application command
-  → context lookup
-  → deterministic rule / parser / state engine
-      → resolved: validated action
-      → unresolved: mark for later escalation
-  → schema/permission validator
-  → database
-  → safe reusable structured knowledge
+Capture source (app now; widgets/voice later)
+  → create Seed origin record
+  → normalize without overwriting the source
+  → retrieve relevant structured state
+  → deterministic rules / parsers / confirmed relationships
+      → resolved: validate and execute/recommend
+      → ambiguous/unresolved: preserve safely
+  → persist typed relationships, provenance, and lifecycle
+  → expose the smallest useful UI result
 
-Only after the deterministic pipeline is mature:
-  unresolved and valuable cases
+Only after the deterministic Seed core is complete and refactored:
+  measured unresolved and valuable cases
       → AI gateway
+      → smallest capable model
       → typed proposal
       → deterministic validation
-      → execute or ask for confirmation
+      → execute, suggest, or ask for confirmation
 ```
 
-The Seed pipeline must not begin as an LLM wrapper. The database model, state machine, parsers, action schemas, validation, ownership rules, confidence policy, and observable fallback states should be implemented first. AI is added only where measured unresolved cases justify it.
+## Seed core invariants
+
+Architecture must preserve the rules in `docs/SEED_DOMAIN.md`:
+
+- the original Seed is provenance and is not silently overwritten by interpretation;
+- derived Tasks, Goals, Events, Projects, Questions, and relationships remain separate objects;
+- a Seed may have many relationships and branches;
+- lifecycle state is distinct from organization/resolution provenance;
+- Grow is an action/intent, not a lifecycle enum value;
+- unresolved is a valid successful result;
+- explicit user corrections outrank inference;
+- idempotency prevents retry duplicates without semantic deduplication;
+- linking is preferred to merging;
+- action execution validates ownership, intent, reversibility, and duplicate/retry behavior;
+- capture/domain logic is shared so future native widgets do not duplicate the brain of Leaflet.
+
+## Deterministic-first boundary
+
+The first Seed milestones must not include a model-provider SDK, prompt layer, embedding service, or hidden generative fallback.
+
+The database model, lifecycle/state machine, parsers, action schemas, validation, ownership rules, organization provenance, learned corrections, and observable unresolved cases are implemented first.
+
+After the end-to-end deterministic slice works, Task 0006 is the required architecture/refactor checkpoint before AI design begins.
 
 ## Boundaries
 
@@ -70,12 +93,15 @@ The Seed pipeline must not begin as an LLM wrapper. The database model, state ma
 - New dependencies require a concrete need, maintenance/security consideration, and license check.
 - Important choices are recorded in `docs/DECISIONS.md`.
 - Temporary compromises include an owner and removal condition.
+- The queued Seed task sequence should be implemented in dependency order unless a recorded decision changes that plan.
 
 ## Remaining implementation choices
 
-- initial Supabase project structure, schema, migrations, and local seed strategy;
+- exact Supabase schema and migration design that satisfies the Seed invariants;
 - authentication providers and callback flows;
 - test frameworks and initial coverage expectations;
+- exact Undo-window duration and permanent retention/deletion policy;
 - preview environment behavior;
 - monitoring, analytics, and error-reporting approach;
-- exact widget implementation for each platform after the core Seed service exists.
+- exact widget implementation for each platform after the shared Seed service exists;
+- AI capabilities only after the deterministic architecture checkpoint.
