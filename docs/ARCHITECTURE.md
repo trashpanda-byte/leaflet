@@ -2,9 +2,9 @@
 
 ## Status
 
-This document defines architectural boundaries and the intended runtime shape. It does not yet describe the imported application because no application code was present in the repository when this foundation was created.
+This document defines architectural boundaries and the intended runtime shape. Leaflet is a greenfield project: no pre-existing application or implementation must be imported, reverse-engineered, or preserved.
 
-When the code is imported, add a verified “Current implementation” section with the exact framework, package manager, directory map, runtime services, deployment targets, and commands.
+The current implementation consists only of repository governance, documentation, task formats, and a repository-contract workflow. Task 0001 will select and scaffold the application stack. After that work, add a verified “Current implementation” section with the exact framework, package manager, directory map, runtime services, deployment targets, and commands.
 
 ## Target runtime flow
 
@@ -46,12 +46,12 @@ Client
 - Important choices are recorded in `docs/DECISIONS.md`.
 - Temporary compromises include an owner and removal condition.
 
-## Unknowns to resolve after code import
+## Initial implementation choices to resolve
 
 - frontend and backend frameworks;
 - package manager and supported runtime versions;
-- current Supabase schema and migration history;
+- initial Supabase project structure, schema, migrations, and local seed strategy;
 - authentication providers and callback flows;
-- test frameworks and coverage;
+- test frameworks and initial coverage expectations;
 - Vercel configuration and preview environment behavior;
-- current monitoring, analytics, and error reporting.
+- monitoring, analytics, and error-reporting approach.

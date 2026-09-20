@@ -2,6 +2,16 @@
 
 Record durable product and architecture choices here. Append entries; do not rewrite history without explicitly superseding an earlier decision.
 
+## 2026-09-20 — Leaflet is a greenfield build
+
+**Decision:** Leaflet has no pre-existing application, database schema, or deployment to import or preserve. Implementation starts from a deliberately selected and documented foundation.
+
+**Reason:** The earlier repository status incorrectly assumed a local build existed on Chris's PC.
+
+**Consequence:** Task 0001 selects and scaffolds the initial stack. Documentation must not refer to importing, recovering, or reconciling an existing Leaflet implementation.
+
+**Revisit when:** Never as a historical fact; future implementation state should be documented as it is created.
+
 ## 2026-09-20 — Deterministic-first AI
 
 **Decision:** Leaflet uses application logic, structured state, rules, parsing, purpose-built search, cached results, and confirmed relationships before generative AI.

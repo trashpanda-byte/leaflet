@@ -2,12 +2,13 @@
 
 This roadmap is ordered by dependency, not by promised date.
 
-## Phase 0 — Recover and inventory the existing application
+## Phase 0 — Select and scaffold the application foundation
 
-- Push or otherwise import the current Leaflet application into this repository.
-- Inventory framework, package manager, runtime versions, services, commands, environments, and existing deployment configuration.
-- Scan for committed secrets and rotate any exposed credentials.
-- Record current schema, migrations, tests, and known gaps.
+- Define the smallest first vertical slice that proves the product and technical workflow.
+- Select and record the framework, package manager, runtime versions, repository layout, and initial service boundaries.
+- Scaffold the application from clean, supported tooling rather than inheriting an unknown template.
+- Initialize local development, test foundations, and configuration templates without production credentials.
+- Record exact commands and the reasoning behind choices that will be costly to change later.
 
 ## Phase 1 — Reproducible local development
 

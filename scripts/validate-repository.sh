@@ -42,7 +42,7 @@ fi
 if [[ -f package.json ]]; then
   echo "package.json detected. Application-specific CI must be configured and documented as part of TASK-0001."
 else
-  echo "No application manifest detected; repository contract validation only."
+  echo "Greenfield application not scaffolded yet; repository contract validation only."
 fi
 
 echo "Repository contract is valid."
