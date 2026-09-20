@@ -23,7 +23,9 @@ There is not yet a polished user-facing feature. From tests and a minimal applic
 - [ ] Synthetic data/test setup supports at least two users.
 - [ ] Seed persistence follows `docs/SEED_DOMAIN.md`: original capture is preserved as provenance and is not silently overwritten by derived interpretation.
 - [ ] The data model allows derived objects/relationships to remain separate from the origin Seed.
-- [ ] Creation supports an idempotency mechanism suitable for retry/double-submit protection without semantic deduplication.
+- [ ] Creation supports a stable client-generated Seed/request identity plus idempotency suitable for retry/double-submit protection without semantic deduplication.
+- [ ] The idempotency identity is not derived from Seed text/content.
+- [ ] Downstream derived-action failure cannot cause loss of the original Seed.
 - [ ] Every user-owned API-accessible table has RLS and explicit policies.
 - [ ] Tests prove User A cannot read, insert on behalf of, update, or delete User B's Seed data.
 - [ ] Anonymous access is denied unless an explicit public behavior is approved.
@@ -51,6 +53,8 @@ Use `docs/SEED_DOMAIN.md` as the authority. Do not reinterpret unresolved produc
 Prefer the smallest schema that satisfies current invariants while leaving derived objects and many-to-many relationships possible. Do not build a generic knowledge graph framework in this task.
 
 Do not use semantic duplicate detection. Idempotency protects retries; repeated thoughts remain valid separate captures.
+
+Design Seed identity so future offline capture can safely create a stable ID before server synchronization. Do not build the offline sync engine in this task.
 
 ## Refactor / architecture checkpoint
 
