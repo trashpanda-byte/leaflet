@@ -8,56 +8,65 @@ This roadmap is ordered by dependency, not by promised date.
 - Install dependencies and commit the generated lockfile.
 - Verify type checking and Expo Doctor.
 - Link an EAS project only when needed to produce the first development build.
-- Install and launch the development client on at least one target platform.
+- Install and launch the development client on the iOS device.
 - Keep Expo Go non-authoritative so native features can be added later without changing the development model.
 
-## Phase 1 — Reproducible local development
+## Phase 1 — Seed persistence foundation (TASK-0002)
 
-- Make application setup work from a fresh clone.
-- Configure local Supabase with versioned migrations and synthetic seed data.
-- Establish exact format, lint, typecheck, test, build, and database-reset commands.
-- Create `.env.example` from actual variable usage without values.
+- Initialize local Supabase with versioned migrations and synthetic seed data.
+- Preserve original Seed provenance.
+- Establish idempotent creation/retry behavior.
+- Enforce RLS and cross-user denial.
+- Keep derived-object and many-to-many relationship paths open without building a generic graph engine.
+- Add the first real integration/security test foundation.
 
-## Phase 2 — Deterministic Seed foundation
+## Phase 2 — Seed lifecycle and reversible actions (TASK-0003)
 
-Build as much of the full loop as possible without generative AI:
+- Implement Active / Held / Resolved / Snipped behavior.
+- Keep Grow as an action/intent rather than a lifecycle state.
+- Add Snip/Undo semantics without claiming permanent erasure before retention policy is defined.
+- Add typed ordinary reversible action handling.
+- Keep ambiguous commitment language from creating Tasks/Events.
 
-- define Seed lifecycle and typed domain objects;
-- create database schema, constraints, indexes, timestamps, provenance, and reversible state transitions;
-- implement ownership and RLS with cross-user denial tests;
-- implement Seed creation, update, Hold, Grow-state transitions, and Snip behavior;
-- build deterministic category matching, explicit-command parsing, exact lookups, aliases, and reusable learned relationships;
-- define confidence and uncertainty states;
-- implement typed action schemas and validators;
-- record why a Seed was classified or left unresolved;
-- expose unresolved cases cleanly instead of pretending confidence.
+## Phase 3 — Deterministic organization and relationships (TASK-0004)
 
-No model-provider SDK belongs in this phase.
+- Resolve exact/rule/confirmed learned matches.
+- Leave ambiguity unresolved.
+- Reuse existing broad structure before creating new categories.
+- Support multiple relationships and optional primary home.
+- Learn narrowly from explicit corrections.
+- Link similar information; do not automatically merge it.
+- Measure resolution mechanisms and correction/unresolved cases without logging raw Seed text.
 
-## Phase 3 — Safety and delivery gates
+## Phase 4 — Mobile Seed capture vertical slice (TASK-0005)
 
-- Add unit, integration, end-to-end, and RLS/security test foundations.
-- Replace provisional repository CI with app-specific checks.
-- Configure feature branches, required pull-request checks, and preview builds.
-- Separate local, preview/staging, and production data and credentials.
+- Capture a Seed in the iOS development build.
+- Persist and process it through the deterministic pipeline.
+- Show brief organization/action results.
+- Expose Grow / Hold / Snip where appropriate.
+- Show direct result + Undo for clear reversible commands.
+- Exercise ambiguous input and retry behavior through the real mobile experience.
 
-## Phase 4 — Prove the core Seed loop
+## Phase 5 — Required Seed architecture checkpoint (TASK-0006)
 
-- Capture a Seed in the app.
-- Persist it.
-- Resolve everything deterministic logic can resolve.
-- Show the resulting category/state and Grow / Hold / Snip controls.
-- Measure unresolved and correction cases.
-- Run the slice through spec → implementation → independent review → remediation → CI → product check → merge.
+- Review persistence, lifecycle, action, organization, relationship, validation, and capture boundaries together.
+- Remove accidental duplication and temporary code.
+- Consolidate only proven abstractions.
+- Verify unresolved is a first-class safe outcome.
+- Produce evidence describing what the deterministic system still cannot solve reliably.
+- Complete independent Codex architecture review.
 
-## Phase 5 — Add AI only for demonstrated gaps
+**No AI feature work begins before this checkpoint is complete.**
 
-- Review real unresolved cases from the deterministic Seed pipeline.
-- Add the provider-agnostic AI gateway.
-- Route only irreducibly ambiguous or generative work to the smallest suitable capability.
+## Phase 6 — AI only for demonstrated gaps
+
+- Review real unresolved/correction evidence from the deterministic Seed pipeline.
+- Perform an AI Necessity Review for each proposed capability.
+- Add a provider-agnostic AI gateway only where justified.
+- Route only irreducibly ambiguous/generative work to the smallest suitable capability.
 - Keep model output schema-constrained and untrusted.
 - Validate every proposed action with normal code before writing state.
-- Track deterministic-resolution rate, model-call reasons, tokens, cost, validation rejection, and correction rate.
+- Track deterministic resolution, model-call reasons, tokens/cost, validation rejection, and correction rate.
 
 ## Later
 
