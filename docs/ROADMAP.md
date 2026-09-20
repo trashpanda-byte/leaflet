@@ -58,7 +58,24 @@ This roadmap is ordered by dependency, not by promised date.
 
 **No AI feature work begins before this checkpoint is complete.**
 
-## Phase 6 — AI only for demonstrated gaps
+## Phase 6 — Internal Schedule domain (TASK-0007)
+
+- Implement a provider-neutral Schedule service and internal Event model.
+- Consume typed `create_event` ActionIntents from the Seed core.
+- Preserve Seed/action provenance.
+- Keep timezone, validation, ownership, retry, and Undo behavior in normal code.
+- Keep Google/Apple/provider state outside the core Event.
+
+## Phase 7 — External calendar adapters
+
+After the internal Schedule domain is reviewed:
+
+- add provider mapping/sync state behind adapters;
+- begin with the calendar integration that best matches validated user need;
+- define conflict resolution and one-way/two-way sync policy before enabling writes;
+- keep Seed processing and Leaflet-native scheduling independent of provider availability.
+
+## Phase 8 — AI only for demonstrated gaps
 
 - Review real unresolved/correction evidence from the deterministic Seed pipeline.
 - Perform an AI Necessity Review for each proposed capability.
@@ -71,7 +88,7 @@ This roadmap is ordered by dependency, not by promised date.
 ## Later
 
 - iOS and Android widget entry points into the same Seed service;
-- calendar integration and schedule-aware assistance;
+- richer schedule-aware assistance, recurrence, availability, and rescheduling;
 - location-aware context with explicit permissions and privacy controls;
 - visual Tree experience;
 - social sharing and environmental-impact surfaces;
