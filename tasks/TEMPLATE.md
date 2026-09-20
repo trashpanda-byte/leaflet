@@ -34,6 +34,15 @@ List GREEN/YELLOW decisions and any RED decision required from Chris. Use `docs/
 
 Implementation engineer records relevant current architecture, proposed approach, dependencies, migration impact, and risks.
 
+## Refactor / architecture checkpoint
+
+- Is this the first implementation of a pattern, or does existing repetition justify a shared abstraction?
+- What cleanup should happen after behavior is correct and before handoff?
+- Does this task complete a subsystem that should be reviewed/refactored before the next major layer is added?
+- Is any larger cleanup better handled as a separate task/PR?
+
+Do not invent abstractions for hypothetical future reuse.
+
 ## AI necessity review
 
 Complete for every new or changed model call; otherwise write `No model behavior changed`.
@@ -57,7 +66,7 @@ Complete for every new or changed model call; otherwise write `No model behavior
 
 ## Verification plan
 
-List automated commands and manual scenarios before implementation begins.
+List automated commands and manual scenarios before implementation begins. Include checks that will be rerun after any structural refactor.
 
 ## Implementation handoff
 
