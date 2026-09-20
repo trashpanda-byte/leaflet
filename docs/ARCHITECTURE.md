@@ -2,23 +2,47 @@
 
 ## Status
 
-This document defines architectural boundaries and the intended runtime shape. Leaflet is a greenfield project: no pre-existing application or implementation must be imported, reverse-engineered, or preserved.
+Leaflet is a greenfield project. Task 0001 is establishing the first application foundation on `feat/application-foundation`.
 
-The current implementation consists only of repository governance, documentation, task formats, and a repository-contract workflow. Task 0001 will select and scaffold the application stack. After that work, add a verified “Current implementation” section with the exact framework, package manager, directory map, runtime services, deployment targets, and commands.
+## Current implementation
+
+The current scaffold selects:
+
+- **Client framework:** Expo SDK 57 / React Native 0.86
+- **Language:** TypeScript with strict checking
+- **React:** 19.2
+- **Package manager:** npm
+- **Runtime baseline:** Node.js 22.13+
+- **Development environment:** Expo development builds using `expo-dev-client`
+- **Native project model:** Expo Continuous Native Generation; generated `ios/` and `android/` directories are not the primary source of truth
+- **Cloud build configuration:** EAS profiles are declared, but the project is not yet linked or verified through an actual EAS build
+- **Database:** Supabase is planned but not initialized in the application scaffold yet
+- **AI:** intentionally absent from the application scaffold
+
+See `docs/DEVELOPMENT.md` for the exact current setup path.
 
 ## Target runtime flow
 
 ```text
 Client
-  → Request router
-  → Context + intent engines
-  → Deterministic rule engine
-      → resolved: action engine
-      → unresolved: AI gateway
+  → typed application command
+  → context lookup
+  → deterministic rule / parser / state engine
+      → resolved: validated action
+      → unresolved: mark for later escalation
   → schema/permission validator
   → database
-  → learning layer for safe reusable relationships
+  → safe reusable structured knowledge
+
+Only after the deterministic pipeline is mature:
+  unresolved and valuable cases
+      → AI gateway
+      → typed proposal
+      → deterministic validation
+      → execute or ask for confirmation
 ```
+
+The Seed pipeline must not begin as an LLM wrapper. The database model, state machine, parsers, action schemas, validation, ownership rules, confidence policy, and observable fallback states should be implemented first. AI is added only where measured unresolved cases justify it.
 
 ## Boundaries
 
@@ -29,6 +53,7 @@ Client
 - External search and place lookup use purpose-built APIs when available; an LLM does not invent current facts.
 - Observability must avoid raw private content by default.
 - Production, preview/staging, and local development use separate data environments.
+- Native widgets and platform integrations call shared application/domain services rather than duplicating business logic.
 
 ## Environment model
 
@@ -46,12 +71,11 @@ Client
 - Important choices are recorded in `docs/DECISIONS.md`.
 - Temporary compromises include an owner and removal condition.
 
-## Initial implementation choices to resolve
+## Remaining implementation choices
 
-- frontend and backend frameworks;
-- package manager and supported runtime versions;
 - initial Supabase project structure, schema, migrations, and local seed strategy;
 - authentication providers and callback flows;
 - test frameworks and initial coverage expectations;
-- Vercel configuration and preview environment behavior;
-- monitoring, analytics, and error-reporting approach.
+- preview environment behavior;
+- monitoring, analytics, and error-reporting approach;
+- exact widget implementation for each platform after the core Seed service exists.
