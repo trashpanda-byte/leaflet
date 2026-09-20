@@ -11,7 +11,7 @@ Before meaningful work, read:
 5. `docs/STATUS.md`
 6. the active task file
 
-For any Seed capture, persistence, lifecycle, organization, relationship, action, correction, Tree-origin, or Seed AI work, also read `docs/SEED_DOMAIN.md` before planning or coding.
+For any Seed capture, persistence, lifecycle, organization, relationship, action, correction, Tree-origin, or Seed AI work, also read `docs/SEED_DOMAIN.md` before planning or coding. For typed actions/Undo, also read `docs/ACTION_CONTRACTS.md`. For Event/scheduling work, also read `docs/SCHEDULE_DOMAIN.md`.
 
 For interface work, also read `docs/DESIGN.md`. For model-assisted functionality, also read `docs/AI_ARCHITECTURE.md`. Follow `docs/ai/CLAUDE_ROLE.md` and `docs/ai/DEFINITION_OF_DONE.md`.
 
