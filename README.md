@@ -6,7 +6,7 @@ This repository is also the source of truth for how Leaflet is built. Product de
 
 ## Current repository state
 
-Leaflet is a greenfield project. Task 0001 is in progress on `feat/application-foundation`: the Expo/React Native development-build scaffold is committed with a lockfile, and local install/typecheck/Expo Doctor/export checks pass. The EAS project (`@trashpandadev/leaflet`) is linked. It is not considered fully verified until an iOS development client is built, installed, and launched from Metro on the iPhone, which waits on Apple Developer activation.
+Leaflet is a greenfield project. Task 0001 is in progress on `feat/application-foundation`: the Expo/React Native development-build scaffold is committed with a lockfile, and local install/typecheck/Expo Doctor/export checks pass. The EAS project (`@trashpandadev/leaflet`) is linked, Apple signing is configured, and the first signed iOS development build succeeded. It is not considered fully verified until it is installed and loads the Leaflet shell from Metro on the registered iPhone. See [status](docs/STATUS.md) for current build/device evidence.
 
 The Seed domain is specified and approved as a revisable implementation baseline. Tasks 0002–0006 are queued so the core can be built deterministically and reviewed in small slices before any AI integration.
 

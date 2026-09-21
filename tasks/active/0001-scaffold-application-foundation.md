@@ -90,9 +90,10 @@ Done locally (see handoff evidence): `npm ci` from the committed lockfile, `npm 
 
 Confirmed done (2026-09-21, per user/Codex-reported EAS output; not reproduced by this session): Apple Developer active, iPhone registered, `com.trashpandadev.leaflet` registered, managed distribution certificate and ad hoc provisioning created, EAS build `1797c499-f96b-4c1f-a808-b08c3af48d1e` submitted (`IN_PROGRESS` at 2026-09-21T19:29Z).
 
+Codex subsequently confirmed build success through EAS `build:view`: `FINISHED` at `2026-09-21T19:33:01.369Z`, with an installable IPA artifact.
+
 Still required (not yet verified):
 
-- confirm the EAS build completes successfully;
 - install the iOS development client on the iPhone;
 - launch the scaffold from Metro on the iPhone;
 - record device model/iOS version, build ID, installation, and observed Leaflet shell in the handoff;
@@ -104,7 +105,7 @@ Still required (not yet verified):
 
 The Windows local-development setup is verified with Node.js 22.13.0. The committed npm lockfile reproduces the dependency installation, and CI now installs from that lockfile before running the repository contract, TypeScript, and Expo Doctor checks.
 
-The local Expo development server reaches the Metro ready state, and an iOS JS bundle export completes successfully. Apple registration and signing are now confirmed and an EAS iOS development build is in progress (see below), but build success, installation, and real-device launch are not claimed as verified.
+The local Expo development server reaches the Metro ready state, and an iOS JS bundle export completes successfully. Apple registration and signing are now confirmed and the EAS iOS development build finished successfully (see below), but installation and real-device launch are not claimed as verified.
 
 Claude's implementation rerun on 2026-09-20 (base commit `aeab1c8`) reproduced the local checks in a fresh clone created by Codex, with no pre-existing `node_modules`. It additionally exercised `npm audit`, an iOS export smoke test, and read-only EAS status. The follow-up linked EAS, configured the development iOS bundle identifier, and corrected setup documentation. Application UI code did not change.
 
@@ -176,13 +177,23 @@ Final config re-verification after `app.json` update (EAS link + `ios.bundleIden
 - Port 8081 was occupied by an unrelated local process on this machine; the Metro smoke test used port 8090 instead. This is machine-specific, not a repository defect.
 - The CI workflow triggers only on `pull_request` events or a `push` to `main`. Codex confirmed run `35533800411` passed for `aeab1c8`; this session did not check GitHub itself, and later commits need a new run.
 - The EAS project is linked. After the user reported Apple Developer active, EAS (run by Codex/the user, not this session) restored the Apple session, registered `com.trashpandadev.leaflet`, generated a managed distribution certificate, and created active ad hoc provisioning for the registered iPhone. No secrets, UDID, or certificate details are stored in the repository.
-- EAS build `1797c499-f96b-4c1f-a808-b08c3af48d1e` (development/internal iOS, version 0.1.0, build 1; https://expo.dev/accounts/trashpandadev/projects/leaflet/builds/1797c499-f96b-4c1f-a808-b08c3af48d1e) was `IN_PROGRESS` at 2026-09-21T19:29Z. Its final status, installation, and real-device Metro launch are **not verified**; the combined device criteria stay unchecked. Codex owns build polling and Metro verification.
+- EAS build `1797c499-f96b-4c1f-a808-b08c3af48d1e` (development/internal iOS, version 0.1.0, build 1; https://expo.dev/accounts/trashpandadev/projects/leaflet/builds/1797c499-f96b-4c1f-a808-b08c3af48d1e) was `IN_PROGRESS` at 2026-09-21T19:29Z. Codex subsequently confirmed `FINISHED` at 2026-09-21T19:33:01.369Z and an IPA artifact. Installation and real-device Metro launch are **not verified**; the combined device criteria stay unchecked. Codex owns build polling and Metro verification.
 - Build source attribution: EAS uploaded source at HEAD `6f5478f` plus an uncommitted, EAS-generated `app.json` change adding `ios.infoPlist.ITSAppUsesNonExemptEncryption=false` (this data-free shell has no custom encryption). That diff is authorized, was inspected by this session, and is committed alongside this evidence so the repository matches what was built. Revisit the flag when encryption-bearing features are added.
 - Coordination note: during this session the `app.json` EAS link appeared in the working tree. It was Codex's authorized concurrent change (Chris selected the personal `trashpandadev` account), not a side effect of `expo export`. This session briefly reverted it in error, then restored `owner`, `extra.eas.projectId`, and added `ios.bundleIdentifier` `com.trashpandadev.leaflet` (reversible config; no Apple registration or paid build).
 
 ### Decisions
 
-Chris selected the personal `trashpandadev` EAS account before project creation/linking. The development bundle identifier `com.trashpandadev.leaflet` is a reversible configuration choice; no Apple identifier registration was performed. Application CI uses the existing Node/npm/Expo choices and the repository's `.nvmrc`. No product scope, signing, paid build, or production decision was made.
+2026-09-20: Chris selected the personal `trashpandadev` EAS account before project creation/linking. The development bundle identifier `com.trashpandadev.leaflet` was a reversible configuration choice; no Apple identifier registration was performed in that pass. Application CI uses the existing Node/npm/Expo choices and the repository's `.nvmrc`.
+
+2026-09-21: after Chris confirmed Apple activation and requested the device build, Codex registered that identifier, generated EAS-managed signing credentials, and submitted the internal development build for the supplied registered iPhone. No App Store submission or production release was performed. EAS added `ITSAppUsesNonExemptEncryption=false` for the current shell; reassess when encryption-bearing functionality changes.
+
+### 2026-09-21 signing follow-up verification
+
+Claude implemented configuration/documentation commit `1a02870e3254cf696f42ea4075d3666417f55dec`. Codex reviewed the actual diff and inspected Claude's command output: `npm run typecheck` passed, `npm run doctor` passed 21/21, and `bash scripts/validate-repository.sh` passed. `git diff --check HEAD~1..HEAD` passed. The only runtime configuration change is the EAS-generated encryption declaration; no product/domain code changed.
+
+Codex ran `npx eas-cli@latest device:list --apple-team-id <selected-team> --non-interactive --json`, confirmed the supplied iPhone is enabled, and ran `npx eas-cli@latest build --platform ios --profile development --no-wait`. EAS confirmed identifier registration, managed certificate/profile creation, the selected device, and source upload. `npx eas-cli@latest build:view 1797c499-f96b-4c1f-a808-b08c3af48d1e --json` is the authoritative build-status check. Device identifiers and credential material are deliberately omitted from this record.
+
+Codex started `node node_modules/expo/bin/cli start --dev-client --lan --port 8090`; Metro reached its ready state. An HTTP request to its `/status` endpoint returned `packager-status:running`. Neither result proves a phone has connected or rendered the app.
 
 ### Review target
 

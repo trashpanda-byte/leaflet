@@ -44,11 +44,11 @@ This runs Metro in development-client mode.
 
 The repository is already linked to the EAS project `@trashpandadev/leaflet` (ID `0dd168ed-e23c-475f-830d-32190618a508`, owner `trashpandadev`, both in `app.json`); do not run `eas init` again. Sign in with `npx eas-cli@latest login` if needed and confirm with `npx eas-cli@latest whoami`. The development iOS bundle identifier is `com.trashpandadev.leaflet`.
 
-Apple Developer is active. The registered iPhone, `com.trashpandadev.leaflet`, the managed distribution certificate, and the ad hoc provisioning profile exist in EAS (never commit UDIDs or certificate details). The first development/internal iOS build (`1797c499-f96b-4c1f-a808-b08c3af48d1e`, version 0.1.0, build 1) was `IN_PROGRESS` as of 2026-09-21T19:29Z. It was built from the committed source plus the `ITSAppUsesNonExemptEncryption=false` `infoPlist` entry that EAS generated in `app.json`.
+Apple Developer is active. The registered iPhone, `com.trashpandadev.leaflet`, the managed distribution certificate, and the ad hoc provisioning profile exist in EAS (never commit UDIDs or certificate details). The first development/internal iOS build (`1797c499-f96b-4c1f-a808-b08c3af48d1e`, version 0.1.0, build 1) finished successfully at 2026-09-21T19:33:01.369Z (`FINISHED`). It was built from the committed source plus the `ITSAppUsesNonExemptEncryption=false` `infoPlist` entry that EAS generated in `app.json`.
 
 Remaining steps (not yet verified):
 
-1. Confirm the EAS build finishes successfully.
+1. Open the successful [EAS build](https://expo.dev/accounts/trashpandadev/projects/leaflet/builds/1797c499-f96b-4c1f-a808-b08c3af48d1e) on the registered iPhone.
 2. Install the build on the registered iPhone.
 3. Run `npm start` and confirm the development client loads the Leaflet shell from Metro.
 4. Record device model/iOS version, build ID, and the observed result in the TASK-0001 handoff.
