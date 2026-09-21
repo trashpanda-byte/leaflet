@@ -44,13 +44,14 @@ This runs Metro in development-client mode.
 
 The repository is already linked to the EAS project `@trashpandadev/leaflet` (ID `0dd168ed-e23c-475f-830d-32190618a508`, owner `trashpandadev`, both in `app.json`); do not run `eas init` again. Sign in with `npx eas-cli@latest login` if needed and confirm with `npx eas-cli@latest whoami`. The development iOS bundle identifier is `com.trashpandadev.leaflet`.
 
-Remaining physical-device steps (blocked until Apple Developer enrollment is active; none has been performed or verified):
+Apple Developer is active. The registered iPhone, `com.trashpandadev.leaflet`, the managed distribution certificate, and the ad hoc provisioning profile exist in EAS (never commit UDIDs or certificate details). The first development/internal iOS build (`1797c499-f96b-4c1f-a808-b08c3af48d1e`, version 0.1.0, build 1) was `IN_PROGRESS` as of 2026-09-21T19:29Z. It was built from the committed source plus the `ITSAppUsesNonExemptEncryption=false` `infoPlist` entry that EAS generated in `app.json`.
 
-1. Register the iPhone for internal distribution (`npx eas-cli@latest device:create`).
-2. Build: `npx eas-cli@latest build --platform ios --profile development`.
-3. Install the build on the registered iPhone.
-4. Run `npm start` and confirm the development client loads the Leaflet shell from Metro.
-5. Record the fresh-clone/device result in the TASK-0001 handoff.
+Remaining steps (not yet verified):
+
+1. Confirm the EAS build finishes successfully.
+2. Install the build on the registered iPhone.
+3. Run `npm start` and confirm the development client loads the Leaflet shell from Metro.
+4. Record device model/iOS version, build ID, and the observed result in the TASK-0001 handoff.
 
 Build targets:
 
@@ -67,7 +68,7 @@ npx eas-cli@latest build --platform ios --profile development-simulator
 
 Install the resulting build, then run `npm start`.
 
-The first physical iOS build can require Apple signing/device-registration steps. Do not create production App Store or Play Store infrastructure as part of this task.
+Additional physical devices require their own registration and a new ad hoc provisioning profile. Do not create production App Store or Play Store infrastructure as part of this task.
 
 ## Local native build option
 

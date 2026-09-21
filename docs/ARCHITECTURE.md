@@ -15,7 +15,7 @@ The current scaffold selects:
 - **Runtime baseline:** Node.js 22.13+
 - **Development environment:** Expo development builds using `expo-dev-client`
 - **Native project model:** Expo Continuous Native Generation; generated `ios/` and `android/` directories are not the primary source of truth
-- **Cloud build configuration:** EAS profiles are declared and the project is linked (`@trashpandadev/leaflet`, `com.trashpandadev.leaflet` iOS bundle identifier), but no EAS build, device registration, or signing credential has been created or verified yet
+- **Cloud build configuration:** EAS profiles are declared and the project is linked (`@trashpandadev/leaflet`, `com.trashpandadev.leaflet` iOS bundle identifier), Apple registration, a managed distribution certificate, and ad hoc provisioning for the registered iPhone are in place (credentials live in EAS, not the repository). Development/internal iOS build `1797c499-f96b-4c1f-a808-b08c3af48d1e` was in progress as of 2026-09-21T19:29Z; installation and device launch are not yet verified. `ios.infoPlist.ITSAppUsesNonExemptEncryption` is `false` because the data-free shell has no custom encryption; revisit when encryption-bearing features are added
 - **Database:** Supabase is planned but not initialized in the application scaffold yet
 - **AI:** intentionally absent from the application scaffold and first deterministic Seed milestones
 

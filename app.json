@@ -16,7 +16,10 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.trashpandadev.leaflet"
+      "bundleIdentifier": "com.trashpandadev.leaflet",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "predictiveBackGestureEnabled": true

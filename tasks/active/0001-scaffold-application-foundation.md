@@ -88,10 +88,12 @@ When Supabase is introduced in TASK-0002, user-owned tables require RLS, explici
 
 Done locally (see handoff evidence): `npm ci` from the committed lockfile, `npm run typecheck`, `npm run doctor`, `bash scripts/validate-repository.sh`, Metro smoke, iOS JS export, and EAS project linking.
 
-Still required after Apple Developer activation (none performed or verified yet):
+Confirmed done (2026-09-21, per user/Codex-reported EAS output; not reproduced by this session): Apple Developer active, iPhone registered, `com.trashpandadev.leaflet` registered, managed distribution certificate and ad hoc provisioning created, EAS build `1797c499-f96b-4c1f-a808-b08c3af48d1e` submitted (`IN_PROGRESS` at 2026-09-21T19:29Z).
 
-- register the iPhone (`eas device:create`);
-- create/install the iOS development client;
+Still required (not yet verified):
+
+- confirm the EAS build completes successfully;
+- install the iOS development client on the iPhone;
 - launch the scaffold from Metro on the iPhone;
 - record device model/iOS version, build ID, installation, and observed Leaflet shell in the handoff;
 - rerun relevant checks after any additional configuration change.
@@ -102,7 +104,7 @@ Still required after Apple Developer activation (none performed or verified yet)
 
 The Windows local-development setup is verified with Node.js 22.13.0. The committed npm lockfile reproduces the dependency installation, and CI now installs from that lockfile before running the repository contract, TypeScript, and Expo Doctor checks.
 
-The local Expo development server reaches the Metro ready state, and an iOS JS bundle export completes successfully. iOS signing, installation, and real-device launch remain pending Apple Developer enrollment and are not claimed as verified.
+The local Expo development server reaches the Metro ready state, and an iOS JS bundle export completes successfully. Apple registration and signing are now confirmed and an EAS iOS development build is in progress (see below), but build success, installation, and real-device launch are not claimed as verified.
 
 Claude's implementation rerun on 2026-09-20 (base commit `aeab1c8`) reproduced the local checks in a fresh clone created by Codex, with no pre-existing `node_modules`. It additionally exercised `npm audit`, an iOS export smoke test, and read-only EAS status. The follow-up linked EAS, configured the development iOS bundle identifier, and corrected setup documentation. Application UI code did not change.
 
@@ -111,7 +113,8 @@ Claude's implementation rerun on 2026-09-20 (base commit `aeab1c8`) reproduced t
 - previously committed in `aeab1c8`: `package-lock.json`, `.github/workflows/repository-contract.yml`, and `scripts/validate-repository.sh`;
 - `5a5b72b`: EAS project link and iOS bundle identifier in `app.json`;
 - `55eedaf`: README, development, architecture, roadmap, status, and this task's setup/evidence corrections;
-- review follow-up: this task, status, and `docs/ai/reviews/TASK-0001.md`.
+- review follow-up: this task, status, and `docs/ai/reviews/TASK-0001.md`;
+- Apple/EAS build follow-up: `app.json` (`ios.infoPlist.ITSAppUsesNonExemptEncryption=false`), `docs/STATUS.md`, `docs/ARCHITECTURE.md`, `docs/DEVELOPMENT.md`, and this task.
 
 ### Refactor and architecture pass
 
@@ -172,8 +175,9 @@ Final config re-verification after `app.json` update (EAS link + `ios.bundleIden
 - Codex created this checkout using `git clone --branch feat/application-foundation https://github.com/trashpanda-byte/leaflet.git leaflet` before Claude ran installation. Fresh-clone dependency/setup verification is therefore real. The combined fresh-clone/device criterion remains unchecked because no device launch occurred.
 - Port 8081 was occupied by an unrelated local process on this machine; the Metro smoke test used port 8090 instead. This is machine-specific, not a repository defect.
 - The CI workflow triggers only on `pull_request` events or a `push` to `main`. Codex confirmed run `35533800411` passed for `aeab1c8`; this session did not check GitHub itself, and later commits need a new run.
-- The EAS project is linked and EAS CLI is authenticated. iOS device registration, the development build, installation, and real-device Metro launch remain pending Apple Developer activation; this work created no signing credentials, builds, or device registrations.
-- Apple Developer enrollment is reported pending by Chris; physical iPhone acceptance-criteria items remain unchecked and should not be marked complete until a real device launch is verified.
+- The EAS project is linked. After the user reported Apple Developer active, EAS (run by Codex/the user, not this session) restored the Apple session, registered `com.trashpandadev.leaflet`, generated a managed distribution certificate, and created active ad hoc provisioning for the registered iPhone. No secrets, UDID, or certificate details are stored in the repository.
+- EAS build `1797c499-f96b-4c1f-a808-b08c3af48d1e` (development/internal iOS, version 0.1.0, build 1; https://expo.dev/accounts/trashpandadev/projects/leaflet/builds/1797c499-f96b-4c1f-a808-b08c3af48d1e) was `IN_PROGRESS` at 2026-09-21T19:29Z. Its final status, installation, and real-device Metro launch are **not verified**; the combined device criteria stay unchecked. Codex owns build polling and Metro verification.
+- Build source attribution: EAS uploaded source at HEAD `6f5478f` plus an uncommitted, EAS-generated `app.json` change adding `ios.infoPlist.ITSAppUsesNonExemptEncryption=false` (this data-free shell has no custom encryption). That diff is authorized, was inspected by this session, and is committed alongside this evidence so the repository matches what was built. Revisit the flag when encryption-bearing features are added.
 - Coordination note: during this session the `app.json` EAS link appeared in the working tree. It was Codex's authorized concurrent change (Chris selected the personal `trashpandadev` account), not a side effect of `expo export`. This session briefly reverted it in error, then restored `owner`, `extra.eas.projectId`, and added `ios.bundleIdentifier` `com.trashpandadev.leaflet` (reversible config; no Apple registration or paid build).
 
 ### Decisions

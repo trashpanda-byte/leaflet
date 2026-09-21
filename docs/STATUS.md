@@ -6,7 +6,7 @@
 
 Leaflet is a greenfield project. The first application scaffold exists on the `feat/application-foundation` branch.
 
-The selected foundation is Expo SDK 57 + React Native + TypeScript + npm with `expo-dev-client` and EAS development-build profiles. Local dependency installation (`npm ci` from the committed lockfile), TypeScript, Expo Doctor, repository validation, Metro startup, and an iOS JS export are verified locally. The EAS project `@trashpandadev/leaflet` is linked and the iOS bundle identifier is `com.trashpandadev.leaflet`. The development build is **not yet verified on an iPhone**: iOS device registration, the development build, installation, and a real-device Metro launch still need to occur after Apple Developer activation (user-reported pending).
+The selected foundation is Expo SDK 57 + React Native + TypeScript + npm with `expo-dev-client` and EAS development-build profiles. Local dependency installation (`npm ci` from the committed lockfile), TypeScript, Expo Doctor, repository validation, Metro startup, and an iOS JS export are verified locally. The EAS project `@trashpandadev/leaflet` is linked and the iOS bundle identifier is `com.trashpandadev.leaflet`. Apple Developer is now active. EAS restored the Apple session, registered `com.trashpandadev.leaflet`, generated a managed distribution certificate, and created an active ad hoc provisioning profile for the user's registered iPhone (no UDID or certificate details are stored in the repository). EAS development/internal iOS build `1797c499-f96b-4c1f-a808-b08c3af48d1e` (version 0.1.0, build 1) was submitted and was `IN_PROGRESS` at 2026-09-21T19:29Z; its final result is not recorded here. The development build is **not yet verified on an iPhone**: build completion, installation, and a real-device Metro launch have not been confirmed.
 
 The Seed product/domain baseline is now approved and documented in `docs/SEED_DOMAIN.md`. Tasks 0002–0006 are queued in dependency order so Claude can implement small bounded Seed slices and Codex can review each one independently. The resolver/action/schedule boundaries are now specified, and TASK-0007 is queued for the provider-neutral internal Schedule domain after the Seed architecture checkpoint.
 
@@ -38,7 +38,7 @@ Do not start Task 0002 implementation until Task 0001 is verified and merged. Do
 |---|---|
 | Application code | Initial Expo scaffold committed on feature branch |
 | Stack selection | Local installation, typecheck, Doctor, Metro startup, and iOS JS export verified; native device verification pending |
-| Development build | Configured; iOS launch not yet verified |
+| Development build | Apple registration and signing confirmed; EAS build `1797c499-f96b-4c1f-a808-b08c3af48d1e` in progress as of 2026-09-21T19:29Z; installation and iOS launch not verified |
 | Package lock | Generated and verified with a clean `npm ci` install |
 | Design direction | Canonical references committed; full implementation pending |
 | Seed product/domain rules | Approved baseline; revisable during development |
@@ -55,7 +55,7 @@ Do not start Task 0002 implementation until Task 0001 is verified and merged. Do
 
 ## Waiting on Chris
 
-The immediate hands-on step is the development build: once Apple Developer enrollment is active, register the iPhone, create the iOS development build, install it, and launch it from Metro. The EAS project is already linked.
+The immediate hands-on step is the development build: wait for EAS build `1797c499-f96b-4c1f-a808-b08c3af48d1e` to finish, install it on the registered iPhone, and launch it from Metro. Apple registration, signing, and the EAS project link are already done.
 
 No Seed product decision currently blocks Task 0002. The approved rules may be revised later through the normal decision/documentation workflow.
 
