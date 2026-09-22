@@ -10,6 +10,11 @@ dist/
 build/
 coverage/
 .turbo/
+.expo/
+
+# Expo CNG native output
+ios/
+android/
 
 # Local Supabase state
 supabase/.branches/

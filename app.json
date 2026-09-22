@@ -1,0 +1,34 @@
+{
+  "expo": {
+    "name": "Leaflet",
+    "slug": "leaflet",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "scheme": "leaflet",
+    "plugins": [
+      [
+        "expo-dev-client",
+        {
+          "launchMode": "most-recent"
+        }
+      ]
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.trashpandadev.leaflet",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
+    },
+    "android": {
+      "predictiveBackGestureEnabled": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "0dd168ed-e23c-475f-830d-32190618a508"
+      }
+    },
+    "owner": "trashpandadev"
+  }
+}

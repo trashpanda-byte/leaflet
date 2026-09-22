@@ -71,3 +71,65 @@ Record durable product and architecture choices here. Append entries; do not rew
 **Consequence:** New design and implementation follow the visual rules and reference scope in `docs/DESIGN.md`. Copy, navigation labels, feature names, dates, and metrics inside the board remain illustrative unless approved separately as product behavior.
 
 **Revisit when:** Chris approves a replacement visual system or a specific implementation constraint requires an explicit, recorded adjustment.
+
+## 2026-09-20 — Expo development builds are the mobile development baseline
+
+**Decision:** Leaflet uses Expo SDK 57, React Native, TypeScript, npm, and project-specific Expo development builds. Expo Go is not a compatibility requirement.
+
+**Reason:** Leaflet targets iOS and Android and is expected to need native widgets, notifications, location, calendar access, and other capabilities that should fit the normal development environment rather than force a later migration away from Expo Go.
+
+**Consequence:** Native-capability work is tested in development clients. Generated native projects remain reproducible through Expo CNG unless a future requirement justifies committing native projects.
+
+**Revisit when:** A required native capability cannot be supported cleanly through Expo modules/config plugins or the cost of CNG outweighs its benefits.
+
+## 2026-09-20 — Build the Seed loop deterministically before integrating AI
+
+**Decision:** The first Seed implementation will maximize database constraints, typed domain logic, state machines, parsers, exact/fuzzy lookups, aliases, action validators, RLS, and explicit unresolved states before any model-provider SDK or LLM call is added.
+
+**Reason:** Leaflet's product and environmental thesis depends on avoiding unnecessary generative inference. We need to observe what the deterministic system actually cannot resolve before deciding what AI capability is necessary.
+
+**Consequence:** AI is not part of the initial Seed pipeline milestone. Unresolved cases are recorded and surfaced safely rather than automatically routed to a model. Later AI work must be justified by those measured gaps and remain a bounded fallback.
+
+**Revisit when:** The deterministic Seed loop is working end-to-end and real unresolved/correction cases demonstrate a specific need for model inference.
+
+## 2026-09-20 — Refactor at proven boundaries and architecture checkpoints
+
+**Decision:** Leaflet uses deliberate refactor passes rather than continuous cleanup or large late-stage rewrites. Implement the simplest correct solution first, clean the changed area before handoff, abstract only after repetition or coupling is proven, and perform broader architecture reviews before major new subsystems are layered on top.
+
+**Reason:** Premature abstraction creates complexity before the problem is understood, while delaying all cleanup allows technical debt to compound. Timed cleanup gives the team enough real code to see the correct structure without letting poor structure become permanent.
+
+**Consequence:** Claude performs a focused cleanup pass before handoff; Codex reviews maintainability and architecture hygiene explicitly; tasks identify architecture checkpoints; large unrelated refactors normally receive their own task/PR; verification is rerun after structural changes.
+
+**Examples of architecture checkpoints:** deterministic Seed pipeline before AI fallback, scheduling core before external calendar integrations, context engine before location-aware behavior, and shared app/domain core before platform-specific widgets.
+
+**Revisit when:** The workflow creates excessive churn, slows delivery without measurable quality benefit, or repeated defects show the checkpoints are too infrequent.
+
+
+## 2026-09-20 — Seed domain baseline approved as revisable implementation contract
+
+**Decision:** The rules in `docs/SEED_DOMAIN.md` are approved as the implementation baseline for the Seed core. Key rules include universal Seed capture, preserved original provenance, separate derived objects, many-to-many relationships, explicit reversible commands without redundant confirmation, ambiguity as a valid unresolved result, narrow learning from corrections, link-before-merge behavior, and zero generative AI through the deterministic Seed architecture checkpoint.
+
+**Reason:** These rules best match Leaflet's intended experience: fast capture, useful automation, low cognitive load, resource-conscious processing, and user control without turning the product into a configuration-heavy system.
+
+**Consequence:** TASK-0002 through TASK-0006 must implement and review against `docs/SEED_DOMAIN.md`. Claude must not silently reinterpret the product rules to simplify implementation, and Codex treats violations as review findings. The exact schema, module boundaries, and algorithms remain engineering choices as long as they preserve the domain contract.
+
+**Revisit when:** Development or real usage reveals a simpler, more helpful, safer, or more efficient behavior. Revisions are expected to be possible; update the domain document and record a superseding decision when a durable rule changes.
+
+
+## 2026-09-20 — Seed resolver, Topic/Branch, action, and schedule boundaries
+
+**Decision:** Tighten the deterministic core before coding. Topic is the persisted organizational concept; Branch is primarily a Tree/UI projection of Topic relationships. Seed interpretation occurs behind a distinct deterministic `SeedResolver` with authority ordered from explicit user instruction/correction, to user-confirmed knowledge, to exact structured matches, to a single unambiguous parser/rule. Conflicting valid interpretations return ambiguous rather than being broken by a weaker heuristic.
+
+**Action boundary:** The Seed core emits allowlisted typed ActionIntents such as `create_task` and `create_event`; it does not own the Task or Schedule subsystem. Recognition is not execution. A successful action that fully satisfies a Seed resolves the source Seed; failed/unsupported downstream actions preserve the Seed and cannot display false success. Reversible domain executors return an ActionReceipt/Undo capability.
+
+**Relationships:** Start with a small relationship vocabulary: `about`, `part_of`, `related_to`, and `derived_from`. Explicit corrections initially learn only the exact normalized corrected term or aliases the user explicitly confirms.
+
+**Identity/durability:** Seed creation supports stable client-generated identity/idempotency for safe retry and future offline capture. The original Seed survives derived-action failure.
+
+**Schedule:** Leaflet owns a provider-neutral internal Event/Schedule model. Google Calendar, Apple Calendar, and future calendars integrate through adapters/mappings after the internal Schedule service exists; the Seed core never calls a provider directly.
+
+**Reason:** These boundaries reduce heuristic drift, prevent UI/provider coupling, keep Undo and failure semantics honest, and make the future calendar integration additive rather than a rewrite.
+
+**Consequence:** TASK-0002 through TASK-0006 enforce these boundaries. TASK-0007 establishes the internal Schedule domain before any external calendar adapter work.
+
+**Revisit when:** Implementation evidence shows a boundary is unnecessarily complex or a real product flow requires a different relationship/action/schedule contract.
