@@ -2,7 +2,7 @@
 
 | Field | Value |
 |---|---|
-| Status | in progress |
+| Status | in review — device launch confirmed; exact iOS version and merge pending |
 | Owner | Claude / implementation engineer |
 | Reviewer | Codex |
 | Branch | `feat/application-foundation` |
@@ -21,14 +21,14 @@ An authorized contributor can clone the repository, install dependencies, create
 
 - [x] The chosen framework, package manager, runtime baseline, repository layout, and rationale are recorded.
 - [x] Supported versions are pinned through project files **and a committed lockfile**.
-- [ ] A minimal Leaflet development shell starts from a fresh clone using exact README commands.
+- [x] A minimal Leaflet development shell starts from a fresh clone using exact README commands (documented alternate Metro port 8090).
 - [x] The scaffold follows the product/design constitutions without implementing product features prematurely.
 - [x] Type checking and Expo Doctor pass or any remaining issue is explicitly documented.
 - [x] App-specific CI is added at the level justified by the current scaffold, or explicitly deferred with a reason.
 - [x] No secret values were added to `.env.example`.
 - [x] README, architecture, development, roadmap, and status documentation describe the current setup and boundaries.
-- [ ] The iPhone is registered as required and an iOS development build is created/installed.
-- [ ] The development client successfully loads the Leaflet shell from Metro on the iPhone.
+- [x] The iPhone is registered as required and an iOS development build is created/installed.
+- [x] The development client successfully loads the Leaflet shell from Metro on the iPhone.
 - [ ] A fresh-clone/device verification is recorded in the implementation handoff.
 
 ## Current implementation
@@ -200,5 +200,17 @@ Codex started `node node_modules/expo/bin/cli start --dev-client --lan --port 80
 `feat/application-foundation` at `55eedaf982d797b7a7254e9e2e47c490914ac83c` against `main` (`726373931b72259ffb708d879e6aee9964c60b57`), including configuration commit `5a5b72b33a6e5dd20949951c7ad3e9fe0dbe88b5`. Subsequent review records change documentation only.
 
 ## Independent review
+
+### 2026-09-22 device confirmation and readiness update
+
+Chris reports that the installed Leaflet app opens on his iPhone 15 and shows `Leaflet Development foundation` and `Expo development client ready to configure`. That is the expected static shell, not a setup error. This is user-reported physical-device evidence; Codex did not directly inspect the phone. Exact iOS version has been requested; `latest` is not recorded as a numeric version. The final handoff checkbox remains open until that metadata is supplied.
+
+Codex independently observed the running Metro session complete `iOS Bundled 15755ms index.ts (707 modules)` and its `/status` endpoint return `packager-status:running`. The signed build remains `1797c499-f96b-4c1f-a808-b08c3af48d1e` (0.1.0, build 1). Today, `npm run typecheck`, `npm run doctor` (21/21), and `bash scripts/validate-repository.sh` passed on Node 22.13.0/npm 10.9.2. Claude authentication is valid. `npm audit --json` still returns 10 moderate / 0 high / 0 critical findings. The user-supplied device identifier is not tracked.
+
+PR #3 remains unmerged. Do not start TASK-0002 implementation yet. Its local database prerequisite also needs preparation: neither Docker nor Podman was found on PATH; standard Docker installation paths and installed-app entries were absent; `wsl --status` reports WSL is not installed. Supabase CLI is not installed in this repository. A working Docker-compatible runtime and a pinned CLI must be established before local database/RLS verification. No database or OS installation was performed during this readiness review.
+
+Workflow: Claude remains the implementation owner; Codex reviews completed commits independently. This checkout is the current GitHub-linked repository. The older `leaflet-codex` clone points to a different local repository and must not be mistaken for this project. Do not allow simultaneous edits to the same files; use separate checkouts for concurrent implementation/review and exchange exact commits. No new product architecture or extra agent framework is needed to start the queued work once the recorded gates are satisfied.
+
+The following review paragraph is historical; this dated update supersedes its missing-device-launch statement.
 
 Codex reviewed the actual diff, surrounding scaffold, Claude's command output, and independently reran checks. See [review evidence](../../docs/ai/reviews/TASK-0001.md). Local foundation scope: PASS, no BLOCKING/HIGH code findings. Overall task: INCOMPLETE REVIEW until the signed physical-iPhone development build and launch evidence exist. Keep PR #3 draft; do not merge or begin TASK-0002 yet.
